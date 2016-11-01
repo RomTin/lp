@@ -1,0 +1,87 @@
+1: ID (var) を読む
+     IDを読んだ
+OK
+2: [を読む
+     [を読んだ
+OK
+3: WHILEを読む
+     WHILEを読んだ
+OK
+4: ID (varwhile) を読む
+     IDを読んだ
+OK
+5: VOIDを読む
+     VOIDを読んだ
+OK
+6: ID (void2) を読む
+     IDを読んだ
+OK
+7: REALを読む
+     REALを読んだ
+OK
+8: RNUM (380000.000000) を読む
+     RNUMを読んだ
+OK
+9: INTを読む
+     INTを読んだ
+OK
+10: ID (Int) を読む
+     IDを読んだ
+OK
+11: ELSEを読む
+     ELSEを読んだ
+OK
+12: INUM (10) を読む
+     INUMを読んだ
+OK
+13: IFを読む
+     IFを読んだ
+OK
+14: RNUM (2.500000) を読む
+     RNUMを読んだ
+OK
+15: RETURNを読む
+     RETURNを読んだ
+OK
+16: ID (RETURN) を読む
+     IDを読んだ
+OK
+17: ID (rEpEat) を読む
+     IDを読んだ
+OK
+18: ELSIFを読む
+     ELSIFを読んだ
+OK
+19: INUM (97) を読む
+     INUMを読んだ
+OK
+20: ID (elseif) を読む
+     IDを読んだ
+OK
+21: ID (if2elsif) を読む
+     IDを読んだ
+OK
+22: ID (re) を読む
+     IDを読んだ
+OK
+23: ID (turn) を読む
+     IDを読んだ
+OK
+24: ID (wHile) を読む
+     IDを読んだ
+OK
+25: ID (IF) を読む
+     IDを読んだ
+OK
+26: RNUM (1.000000) を読む
+     RNUMを読んだ
+OK
+27: REPEATを読む
+     REPEATを読んだ
+OK
+28: ID (whilE) を読む
+     IDを読んだ
+OK
+29: EOFを読む
+     EOFを読んだ
+OK

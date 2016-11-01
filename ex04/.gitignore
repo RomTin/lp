@@ -1,0 +1,5 @@
+testdir/*.in.result
+testdir/lf
+testdir/core
+core
+*.swp

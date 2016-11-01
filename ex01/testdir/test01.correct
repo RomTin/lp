@@ -1,0 +1,132 @@
+1: ID (var1) を読む
+     IDを読んだ
+OK
+2: ID (cat) を読む
+     IDを読んだ
+OK
+3: ID (varcomm) を読む
+     IDを読んだ
+OK
+4: ID (function) を読む
+     IDを読んだ
+OK
+5: ID (ab) を読む
+     IDを読んだ
+OK
+6: ID (cD5a10qg2ZwQ) を読む
+     IDを読んだ
+OK
+7: ADDOP (+) を読む
+     ADDOPを読んだ
+OK
+8: ADDOP (-) を読む
+     ADDOPを読んだ
+OK
+9: ID (funcvar) を読む
+     IDを読んだ
+OK
+10: ID (whileif) を読む
+     IDを読んだ
+OK
+11: MULOP (*) を読む
+     MULOPを読んだ
+OK
+12: MULOP (%) を読む
+     MULOPを読んだ
+OK
+13: MULOP (/) を読む
+     MULOPを読んだ
+OK
+14: ID (if2q) を読む
+     IDを読んだ
+OK
+15: ID (elsifw) を読む
+     IDを読んだ
+OK
+16: ID (A2q) を読む
+     IDを読んだ
+OK
+17: ADDOP (+) を読む
+     ADDOPを読んだ
+OK
+18: ADDOP (+) を読む
+     ADDOPを読んだ
+OK
+19: ADDOP (+) を読む
+     ADDOPを読んだ
+OK
+20: MULOP (/) を読む
+     MULOPを読んだ
+OK
+21: MULOP (*) を読む
+     MULOPを読んだ
+OK
+22: ID (q1if) を読む
+     IDを読んだ
+OK
+23: ADDOP (+) を読む
+     ADDOPを読んだ
+OK
+24: ID (k23) を読む
+     IDを読んだ
+OK
+25: ID (ret) を読む
+     IDを読んだ
+OK
+26: ID (urn) を読む
+     IDを読んだ
+OK
+27: ADDOP (-) を読む
+     ADDOPを読んだ
+OK
+28: MULOP (/) を読む
+     MULOPを読んだ
+OK
+29: MULOP (%) を読む
+     MULOPを読んだ
+OK
+30: ADDOP (+) を読む
+     ADDOPを読んだ
+OK
+31: ID (aA23509) を読む
+     IDを読んだ
+OK
+32: LOGOP (&&) を読む
+     LOGOPを読んだ
+OK
+33: LOGOP (||) を読む
+     LOGOPを読んだ
+OK
+34: LOGOP (&&) を読む
+     LOGOPを読んだ
+OK
+35: ADDOP (+) を読む
+     ADDOPを読んだ
+OK
+36: ID (B) を読む
+     IDを読んだ
+OK
+37: LOGOP (&&) を読む
+     LOGOPを読んだ
+OK
+38: LOGOP (&&) を読む
+     LOGOPを読んだ
+OK
+39: MULOP (/) を読む
+     MULOPを読んだ
+OK
+40: LOGOP (||) を読む
+     LOGOPを読んだ
+OK
+41: MULOP (*) を読む
+     MULOPを読んだ
+OK
+42: LOGOP (||) を読む
+     LOGOPを読んだ
+OK
+43: ID (a) を読む
+     IDを読んだ
+OK
+44: EOFを読む
+     EOFを読んだ
+OK

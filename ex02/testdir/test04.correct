@@ -1,0 +1,27 @@
+1: ULOGOP (!) を読む
+     ULOGOPを読んだ
+OK
+2: RELOP (!=) を読む
+     RELOPを読んだ
+OK
+3: RELOP (<) を読む
+     RELOPを読んだ
+OK
+4: RELOP (<=) を読む
+     RELOPを読んだ
+OK
+5: RELOP (>=) を読む
+     RELOPを読んだ
+OK
+6: RELOP (==) を読む
+     RELOPを読んだ
+OK
+7: =を読む
+     =を読んだ
+OK
+8: RELOP (!=) を読む
+     RELOPを読んだ
+OK
+9: EOFを読む
+     EOFを読んだ
+OK

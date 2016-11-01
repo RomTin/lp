@@ -1,0 +1,210 @@
+1: ID (var) を読む
+     IDを読んだ
+OK
+2: [を読む
+     [を読んだ
+OK
+3: ,を読む
+     ,を読んだ
+OK
+4: ID (comm) を読む
+     IDを読んだ
+OK
+5: ID (varcomm) を読む
+     IDを読んだ
+OK
+6: ;を読む
+     ;を読んだ
+OK
+7: RNUM (2500.000000) を読む
+     RNUMを読んだ
+OK
+8: VOIDを読む
+     VOIDを読んだ
+OK
+9: (を読む
+     (を読んだ
+OK
+10: ID (func) を読む
+     IDを読んだ
+OK
+11: }を読む
+     }を読んだ
+OK
+12: ADDOP (-) を読む
+     ADDOPを読んだ
+OK
+13: ID (FUnC) を読む
+     IDを読んだ
+OK
+14: REALを読む
+     REALを読んだ
+OK
+15: ADDOP (+) を読む
+     ADDOPを読んだ
+OK
+16: ID (cD5else10qg2ZwQ) を読む
+     IDを読んだ
+OK
+17: )を読む
+     )を読んだ
+OK
+18: INUM (50) を読む
+     INUMを読んだ
+OK
+19: ID (funcvar) を読む
+     IDを読んだ
+OK
+20: WHILEを読む
+     WHILEを読んだ
+OK
+21: ID (whileif) を読む
+     IDを読んだ
+OK
+22: WHILEを読む
+     WHILEを読んだ
+OK
+23: ULOGOP (!) を読む
+     ULOGOPを読んだ
+OK
+24: RETURNを読む
+     RETURNを読んだ
+OK
+25: REPEATを読む
+     REPEATを読んだ
+OK
+26: ]を読む
+     ]を読んだ
+OK
+27: RNUM (0.000001) を読む
+     RNUMを読んだ
+OK
+28: ELSIFを読む
+     ELSIFを読んだ
+OK
+29: INUM (65) を読む
+     INUMを読んだ
+OK
+30: INUM (99) を読む
+     INUMを読んだ
+OK
+31: INUM (39) を読む
+     INUMを読んだ
+OK
+32: ID (if2elsif) を読む
+     IDを読んだ
+OK
+33: ,を読む
+     ,を読んだ
+OK
+34: ELSEを読む
+     ELSEを読んだ
+OK
+35: MULOP (*) を読む
+     MULOPを読んだ
+OK
+36: INUM (0) を読む
+     INUMを読んだ
+OK
+37: ID (else1) を読む
+     IDを読んだ
+OK
+38: RNUM (50.200000) を読む
+     RNUMを読んだ
+OK
+39: ID (return0) を読む
+     IDを読んだ
+OK
+40: {を読む
+     {を読んだ
+OK
+41: IFを読む
+     IFを読んだ
+OK
+42: LOGOP (&&) を読む
+     LOGOPを読んだ
+OK
+43: RNUM (0.070820) を読む
+     RNUMを読んだ
+OK
+44: {を読む
+     {を読んだ
+OK
+45: ID (ret) を読む
+     IDを読んだ
+OK
+46: RNUM (10000000000.000000) を読む
+     RNUMを読んだ
+OK
+47: INTを読む
+     INTを読んだ
+OK
+48: ID (urn) を読む
+     IDを読んだ
+OK
+49: RNUM (2550000.000000) を読む
+     RNUMを読んだ
+OK
+50: ULOGOP (!) を読む
+     ULOGOPを読んだ
+OK
+51: RELOP (!=) を読む
+     RELOPを読んだ
+OK
+52: ID (IF) を読む
+     IDを読んだ
+OK
+53: MULOP (%) を読む
+     MULOPを読んだ
+OK
+54: RNUM (1.000000) を読む
+     RNUMを読んだ
+OK
+55: ID (REPEAT) を読む
+     IDを読んだ
+OK
+56: LOGOP (||) を読む
+     LOGOPを読んだ
+OK
+57: ID (While) を読む
+     IDを読んだ
+OK
+58: ID (vOId) を読む
+     IDを読んだ
+OK
+59: ID (elSE) を読む
+     IDを読んだ
+OK
+60: RELOP (<) を読む
+     RELOPを読んだ
+OK
+61: RELOP (<=) を読む
+     RELOPを読んだ
+OK
+62: RELOP (>=) を読む
+     RELOPを読んだ
+OK
+63: RELOP (==) を読む
+     RELOPを読んだ
+OK
+64: =を読む
+     =を読んだ
+OK
+65: RELOP (!=) を読む
+     RELOPを読んだ
+OK
+66: RELOP (>) を読む
+     RELOPを読んだ
+OK
+67: MULOP (/) を読む
+     MULOPを読んだ
+OK
+68: RNUM (50000000000.000000) を読む
+     RNUMを読んだ
+OK
+69: INUM (2598) を読む
+     INUMを読んだ
+OK
+70: EOFを読む
+     EOFを読んだ
+OK

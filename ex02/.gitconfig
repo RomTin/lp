@@ -1,0 +1,10 @@
+*
+!*/
+
+!*.sh
+!*.correct
+!*.cc
+!*.h
+!.gitignore
+!.gitconfig
+
