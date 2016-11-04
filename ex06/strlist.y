@@ -24,20 +24,28 @@ static void usage(char *cmd);		// 使用法の表示
 %}
 
 // ここに属性、トークン、非終端記号の宣言と、トークンの優先順位と結合性の宣言を書く
+
+// 属性の宣言
 %union {
+  // 数値属性
   int num;
+  // 文字列属性
   string* str;
 }
 
-
+// トークンの宣言
+// 文字列トークン
 %token <str> STR
+// 数値トークン
 %token <num> NUM
 
+// 非終端記号の宣言
 %type <num> expr
 %type <num> elem
 %type <num> body
 %type <num> body2
 
+// 演算子の結合方向と優先順位の宣言
 %left '+'
 %left '*'
 
@@ -88,10 +96,11 @@ body2 : elem {$$=$1;}
      |body ',' {printf(",");} elem { $$=$1+$4; }//後続する要素があるときコンマを出力
      ;
 
-expr : expr '+' expr { $$ = $1 + $3; }
-     | expr '*' expr { $$ = $1 * $3; }
-     | NUM { $$ = $1; }
-     | '(' expr ')' { $$ = $2; }
+// 数値演算式
+expr : expr '+' expr { $$ = $1 + $3; } // 加算式なのでそのまま加算する
+     | expr '*' expr { $$ = $1 * $3; } // 乗算式なのでそのまま乗算する
+     | NUM { $$ = $1; }                // 数値はそのまま返す
+     | '(' expr ')' { $$ = $2; }       // カッコ内の値を返す
      ;
 
 %%
