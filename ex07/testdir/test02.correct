@@ -1,0 +1,6 @@
+手続き: aProcedure
+変数: aVariable1 (型: int)(局所変数) (単純変数)
+変数: aVariable2 (型: real)(大域変数) (単純変数)
+変数: aVariable3 (型: int)(仮引数) (単純変数)
+変数: aVariable4 (型: int)(大域変数) (配列) サイズ: 20
+変数: aVariable5 (型: real)(局所変数) (単純変数)
