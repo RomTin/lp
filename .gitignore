@@ -1,0 +1,6 @@
+ex*/testdir/*.in.result
+ex*/testdir/lf
+ex*/testdir/core
+core
+*.swp
+ex*/testdir/strlist
