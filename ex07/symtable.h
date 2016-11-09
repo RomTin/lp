@@ -31,7 +31,7 @@ class SymbolEntry  {
   // 識別子名にアクセスするためのメンバ関数
   string getName() { return _name; }
   // 識別子の型にアクセスするためのメンバ関数
-  Type getType() { }
+  Type getType() { return _type; }
 };
 
 // 記号表の型名の定義
@@ -42,24 +42,26 @@ typedef map<string, SymbolEntry *> SymbolTable;
 class VarEntry : public SymbolEntry {
   VarClass _vclass;	// 変数の種別
   int _location;	// 大域変数のとき: 変数の静的データ領域内の番地
-			// それ以外のとき: 変数のフレーム内相対番地
+  int _local_location; // それ以外のとき: 変数のフレーム内相対番地
   bool _array;		// 配列なら true、単純変数なら false
   int _size;		// 配列のサイズ
  public:
   // コンストラクタ
   VarEntry(VarClass vc, string name, Type type, bool array, int size)
   // これ以降のコンストラクタの定義を書き換えること
-    : SymbolEntry(SymVar,name) {
+    : SymbolEntry(SymVar,name, type) {
     _vclass = vc;	// メンバ変数 _vclassの初期化
+    _array = array;
+    _size = size;
   }
   // 変数の種別を調べるための述語
   bool isGlobalVariable() { return _vclass == GlobalVar; }
   bool isLocalVariable() { return _vclass == LocalVar; }
   bool isParameter() { return _vclass == Param; }
   // 配列かどうかを調べるためのメンバ関数
-  bool isArray() { }
+  bool isArray() { return _array; }
   // 配列のサイズを得るためのメンバ関数
-  int getArraySize() { }
+  int getArraySize() { return _size; }
 };
 
 
