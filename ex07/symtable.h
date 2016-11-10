@@ -24,7 +24,7 @@ class SymbolEntry  {
   // コンストラクタ
   SymbolEntry(SymClass c, string name, Type type)
   // これ以降のコンストラクタの定義を書き換えること
-    : _class(c), _name(name)  { }
+    : _class(c), _name(name), _type(type) { }
   // 記号表エントリの種別を調べるための述語
   bool isVariable() { return _class == SymVar; }
   bool isProcedure() { return _class == SymProc; }
