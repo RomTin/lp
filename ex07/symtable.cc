@@ -23,8 +23,12 @@ static SymbolTable localSymTable;	// 局所的な記号表
 // 登録した変数エントリへのポインタを返す
 VarEntry *addGlobalVariable(string name, Type type)
 {
-  // この関数の本体を変更すること
-  return addVariable(name,GlobalVar,&globalSymTable);
+  //大域的な記号表(globalSymTable)は大域変数と手続きのためのものであるが
+  //この関数内では前者に対してのみ行う形を取る。
+  //実際に変数エントリを作成、登録するのはaddVariable()なので
+  //VarClassだけ大域変数のものを指定して渡すようにした。
+  
+  return addVariable(name,GlobalVar,type,false,0,&globalSymTable);
 }
 
 // 配列のための変数エントリを生成し、大域的な記号表に登録する
@@ -38,8 +42,12 @@ VarEntry *addArray(string name, Type type, int size)
 // 登録した変数エントリへのポインタを返す
 VarEntry *addLocalVariable(string name, Type type)
 {
-  // この関数の本体を変更すること
-  VarEntry *var = addVariable(name,LocalVar,&localSymTable);
+  //局所的な記号表(localSymTable)は局所変数と仮引数のためのものであるが
+  //この関数内では前者に対してのみ行う形を取る。
+  //実際に変数エントリを作成、登録するのはaddVariable()なので
+  //VarClassだけ局所変数のものを指定して渡すようにした。
+  
+  VarEntry *var = addVariable(name,LocalVar,type,false,0,&localSymTable);
   return var;
 }
 
