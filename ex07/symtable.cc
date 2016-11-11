@@ -47,8 +47,7 @@ VarEntry *addLocalVariable(string name, Type type)
 // 登録した変数エントリへのポインタを返す
 VarEntry *addParameter(string name, Type type)
 {
-  // この関数の本体を変更すること
-  VarEntry *var = addVariable(name,Param,&localSymTable);
+  VarEntry *var = addVariable(name, Param, type, false, 0, &localSymTable);
   return var;
 }
 
