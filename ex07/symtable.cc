@@ -35,7 +35,7 @@ VarEntry *addGlobalVariable(string name, Type type)
 // 登録した変数エントリへのポインタを返す
 VarEntry *addArray(string name, Type type, int size)
 {
-
+  return addVariable(name,GlobalVar,type,true,size,&globalSymTable);
 }
 
 // 局所変数のための変数エントリを生成し、局所的な記号表に登録する
@@ -77,7 +77,7 @@ static VarEntry *addVariable(string name, VarClass vc, Type type,
       compileError(EAlreadyAsProc,name.c_str());
   }
   // なければ識別子名name、種別vclassの変数を生成し、与えられた記号表に登録
-  VarEntry *var = new VarEntry(vc,name);
+  VarEntry *var = new VarEntry(vc,name,type,array,size);
   table->insert(make_pair(name, var));
   return var;
 }
