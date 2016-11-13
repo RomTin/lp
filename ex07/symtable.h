@@ -24,6 +24,7 @@ class SymbolEntry  {
   // コンストラクタ
   SymbolEntry(SymClass c, string name, Type type)
   // これ以降のコンストラクタの定義を書き換えること
+  // _typeが追加されたのでそれについても初期化をする
     : _class(c), _name(name), _type(type) { }
   // 記号表エントリの種別を調べるための述語
   bool isVariable() { return _class == SymVar; }
@@ -51,8 +52,8 @@ class VarEntry : public SymbolEntry {
   // これ以降のコンストラクタの定義を書き換えること
     : SymbolEntry(SymVar,name, type) {
     _vclass = vc;	// メンバ変数 _vclassの初期化
-    _array = array;
-    _size = size;
+    _array = array; // メンバ変数 _arrayの初期化
+    _size = size; // メンバ変数 _sizeの初期化
   }
   // 変数の種別を調べるための述語
   bool isGlobalVariable() { return _vclass == GlobalVar; }
