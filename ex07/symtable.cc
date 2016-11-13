@@ -58,6 +58,7 @@ VarEntry *addLocalVariable(string name, Type type)
 // 登録した変数エントリへのポインタを返す
 VarEntry *addParameter(string name, Type type)
 {
+  // 局地的な記号表に，渡されたパラメタを配列じゃないことを明示して追加する
   VarEntry *var = addVariable(name, Param, type, false, 0, &localSymTable);
   return var;
 }
