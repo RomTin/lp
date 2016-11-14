@@ -2,7 +2,7 @@
 * ちゃろ
   * expr
 * えび
-  * type
+  * type, vname
 * こまつ
   * stmt
 * むかさ
