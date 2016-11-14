@@ -147,19 +147,35 @@ stmtList
 // 置き換えられる。
 stmt
   : vname '='
-      { }
+      {
+      if( $<var>1->isArray() == true) {
+        compileError(EDeclaredAsArray, $<var>1->getName().c_str(), $<var>1->getName().c_str());
+      }
+      }
     expr ';'
-      { }
+      { $$ = makeAssignTree($<var>1, $<expression>2, NULL); }
   | vname '['
-      { }
+      {
+      if( $<var>1->isArray() == false) {
+        compileError(EDeclaredAsSimpleVar, $<var>1->getName().c_str(), $<var>1->getName().c_str());
+      }
+      }
     expr ']'
-      { }
+      {
+      if( $<expression>2->getType() != TInt ){
+        compileError(EIndexTypeMismatch, $<var>1->getName().c_str(), $<var>1->getName().c_str());
+      }
+      }
     '=' expr ';'
-      { }
+      { $$ = makeAssignTree($<var>1, $<expression>3, $<expression>2); }
   | ifPart elsePart { $$ = new IfTree($1,$2); }
   | WHILE '(' cond ')' '{' stmtList '}' { $$ = new WhileTree($3,$6); }
   | REPEAT '(' expr ')'
-      { }
+      {
+      if( $<expression>1->getType() != TInt ){
+        compileError(ERepeatTypeMismatch);
+      }
+      }
     '{' stmtList '}' { $$ = new RepeatTree($3,$7); }
   ;
 
