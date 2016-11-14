@@ -265,12 +265,18 @@ static void allocateArray(VarEntry *var)
 static AssignTree *makeAssignTree(VarEntry *var,
                                   ExprTree *expr, ExprTree *index)
 {
+  int loc = var->getLocation();
+  string name = var->getName();
+  Type type = var->getType();
+
   if(index == NULL) {
   // 単純変数の構文木を作る
+  SmplVarNode *node = new SmplVarNode(name, loc, type);
 
   } else {
   // 配列要素の構文木を作る
-
+  int size = var->getArraySize();
+  ArrayElemTree *node = new ArrayElemTree(name, loc, type, index, size);
   }
 
  // 型変換を行う
@@ -283,6 +289,8 @@ static ExprTree *makeBinExprTree(CConst op, ExprTree *lexp, ExprTree *rexp)
  // 型変換を行う
 
  // 二項演算子をもつ式の構文木を生成し，返却する．
+ BinExprTree *btree = new BinExprTree(op, lexp, rexp);
+ return btree;
 
 }
 
@@ -291,6 +299,8 @@ static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
  // 型変換を行う
 
  // 関係演算子をもつ条件を構文木を作成し，返却する
+ RelationTree *rtree = new RelationTree(op, e1, e2);
+ return rtree;
 
 }
 
