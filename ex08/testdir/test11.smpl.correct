@@ -1,0 +1,5 @@
+初期値:
+a(size 5) = 0 (int), 0 (int), 0 (int), 0 (int), 0 (int)
+
+最終値:
+a(size 5) = 10 (int), 2 (int), -30 (int), 0 (int), 5 (int)
