@@ -1,0 +1,10 @@
+// 未宣言配列の要素への代入: 異常ケース
+
+int quick=25;
+real cover = 3.60;
+cover = 2+cover*cover*cover/8;	// cover = 7.832
+time[
+0]  
+= (3+quick)/cover;	// = の左辺の配列 time は宣言されていないのでエラー
+quick = -cover/2;	// quick = -1
+

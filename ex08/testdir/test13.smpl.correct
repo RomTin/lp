@@ -1,0 +1,11 @@
+初期値:
+a(size 5) = 0 (int), 0 (int), 0 (int), 0 (int), 0 (int)
+x = 0 (int)
+y = 0 (int)
+z = 0 (int)
+
+最終値:
+a(size 5) = 10 (int), 3 (int), -30 (int), 0 (int), 5 (int)
+x = 15 (int)
+y = 30 (int)
+z = 45 (int)

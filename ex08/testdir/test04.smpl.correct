@@ -1,0 +1,11 @@
+初期値:
+x = 0 (int)
+y = 0 (int)
+z = 0 (int)
+w = 0 (int)
+
+最終値:
+x = 10 (int)
+y = 23 (int)
+z = -3 (int)
+w = -52 (int)

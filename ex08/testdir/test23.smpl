@@ -1,0 +1,9 @@
+// 単純変数の配列としての使用１: 異常ケース
+
+int quick=25;
+int cover[3];
+quick[ 
+0] =  
+3;	// = の左辺の quick は配列ではないのでエラー
+quick = quick + 1;
+
