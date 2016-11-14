@@ -265,16 +265,32 @@ static void allocateArray(VarEntry *var)
 static AssignTree *makeAssignTree(VarEntry *var,
                                   ExprTree *expr, ExprTree *index)
 {
+  if(index == NULL) {
+  // 単純変数の構文木を作る
 
+  } else {
+  // 配列要素の構文木を作る
+
+  }
+
+ // 型変換を行う
+
+ // 代入木の構文期を作成し，返却する
 }
 
 static ExprTree *makeBinExprTree(CConst op, ExprTree *lexp, ExprTree *rexp)
 {
+ // 型変換を行う
+
+ // 二項演算子をもつ式の構文木を生成し，返却する．
 
 }
 
 static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
 {
+ // 型変換を行う
+
+ // 関係演算子をもつ条件を構文木を作成し，返却する
 
 }
 
