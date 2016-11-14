@@ -269,19 +269,22 @@ static AssignTree *makeAssignTree(VarEntry *var,
   string name = var->getName();
   Type type = var->getType();
 
+  Variable *vtree;
   if(index == NULL) {
   // 単純変数の構文木を作る
-  SmplVarNode *node = new SmplVarNode(name, loc, type);
+  vtree = new SmplVarNode(name, loc, type);
 
   } else {
   // 配列要素の構文木を作る
   int size = var->getArraySize();
-  ArrayElemTree *node = new ArrayElemTree(name, loc, type, index, size);
+  vtree = new ArrayElemTree(name, loc, type, index, size);
   }
 
  // 型変換を行う
 
  // 代入木の構文期を作成し，返却する
+ AssignTree *tree = new AssignTree(vtree, expr);
+ return tree;
 }
 
 static ExprTree *makeBinExprTree(CConst op, ExprTree *lexp, ExprTree *rexp)
