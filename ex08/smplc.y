@@ -130,8 +130,8 @@ rconst
 
 // 型 → INT | REAL
 type
-  : INT  { }
-  | REAL { }
+  : INT  { $$ = TInt; }
+  | REAL { $$ = TReal; }
   ;
 
 // 文リスト → ε | 文リスト 文
