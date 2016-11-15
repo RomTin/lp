@@ -216,7 +216,7 @@ expr
 
 // stmt と expr の右辺中の ID を置き換えたもの
 vname
-  : ID { }
+  : ID { $$ = findVariable(*$1); }
   ;
 
 // 条件 → 条件 LOGOP 条件 | ULOGOP 条件 | 式 RELOP 式 | '(' 条件 ')'
