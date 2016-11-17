@@ -1,0 +1,1166 @@
+Terminals unused in grammar
+
+   RETURN
+   VOID
+
+
+文法
+
+    0 $accept: program $end
+
+    1 program: declPart stmtList
+
+    2 declPart: %empty
+    3         | declPart decl
+
+    4 @1: %empty
+
+    5 decl: type ID @1 vinit ';'
+    6     | type ID '[' INUM ']' ';'
+
+    7 vinit: %empty
+    8      | '=' iconst
+    9      | '=' rconst
+
+   10 iconst: INUM
+   11       | ADDOP INUM
+
+   12 rconst: RNUM
+   13       | ADDOP RNUM
+
+   14 type: INT
+   15     | REAL
+
+   16 stmtList: %empty
+   17         | stmtList stmt
+
+   18 $@2: %empty
+
+   19 stmt: vname '=' $@2 expr ';'
+
+   20 $@3: %empty
+
+   21 $@4: %empty
+
+   22 stmt: vname '[' $@3 expr ']' $@4 '=' expr ';'
+   23     | ifPart elsePart
+   24     | WHILE '(' cond ')' '{' stmtList '}'
+
+   25 $@5: %empty
+
+   26 stmt: REPEAT '(' expr ')' $@5 '{' stmtList '}'
+
+   27 ifPart: IF '(' cond ')' '{' stmtList '}'
+   28       | ifPart ELSIF '(' cond ')' '{' stmtList '}'
+
+   29 elsePart: %empty
+   30         | ELSE '{' stmtList '}'
+
+   31 expr: expr ADDOP expr
+   32     | expr MULOP expr
+   33     | ADDOP expr
+   34     | '(' expr ')'
+   35     | vname
+
+   36 $@6: %empty
+
+   37 expr: vname '[' $@6 expr ']'
+   38     | INUM
+   39     | RNUM
+
+   40 vname: ID
+
+   41 cond: cond LOGOP cond
+   42     | ULOGOP cond
+   43     | expr RELOP expr
+   44     | '(' cond ')'
+
+
+出現位置の規則による終端
+
+$end (0) 0
+'(' (40) 24 26 27 28 34 44
+')' (41) 24 26 27 28 34 44
+';' (59) 5 6 19 22
+'=' (61) 8 9 19 22
+'[' (91) 6 22 37
+']' (93) 6 22 37
+'{' (123) 24 26 27 28 30
+'}' (125) 24 26 27 28 30
+error (256)
+ID (258) 5 6 40
+INUM (259) 6 10 11 38
+RNUM (260) 12 13 39
+ADDOP (261) 11 13 31 33
+MULOP (262) 32
+RELOP (263) 43
+LOGOP (264) 41
+ULOGOP (265) 42
+SIGNOP (266)
+IF (267) 27
+ELSIF (268) 28
+ELSE (269) 30
+WHILE (270) 24
+REPEAT (271) 26
+RETURN (272)
+VOID (273)
+INT (274) 14
+REAL (275) 15
+
+
+出現位置の規則による非終端
+
+$accept (29)
+    左辺: 0
+program (30)
+    左辺: 1, 右辺: 0
+declPart (31)
+    左辺: 2 3, 右辺: 1 3
+decl (32)
+    左辺: 5 6, 右辺: 3
+@1 (33)
+    左辺: 4, 右辺: 5
+vinit (34)
+    左辺: 7 8 9, 右辺: 5
+iconst (35)
+    左辺: 10 11, 右辺: 8
+rconst (36)
+    左辺: 12 13, 右辺: 9
+type (37)
+    左辺: 14 15, 右辺: 5 6
+stmtList (38)
+    左辺: 16 17, 右辺: 1 17 24 26 27 28 30
+stmt (39)
+    左辺: 19 22 23 24 26, 右辺: 17
+$@2 (40)
+    左辺: 18, 右辺: 19
+$@3 (41)
+    左辺: 20, 右辺: 22
+$@4 (42)
+    左辺: 21, 右辺: 22
+$@5 (43)
+    左辺: 25, 右辺: 26
+ifPart (44)
+    左辺: 27 28, 右辺: 23 28
+elsePart (45)
+    左辺: 29 30, 右辺: 23
+expr (46)
+    左辺: 31 32 33 34 35 37 38 39, 右辺: 19 22 26 31 32 33 34 37
+    43
+$@6 (47)
+    左辺: 36, 右辺: 37
+vname (48)
+    左辺: 40, 右辺: 19 22 35 37
+cond (49)
+    左辺: 41 42 43 44, 右辺: 24 27 28 41 42 44
+
+
+State 0
+
+    0 $accept: . program $end
+
+    $default  reduce using rule 2 (declPart)
+
+    program   go to state 1
+    declPart  go to state 2
+
+
+State 1
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 3
+
+
+State 2
+
+    1 program: declPart . stmtList
+    3 declPart: declPart . decl
+
+    INT   shift, and go to state 4
+    REAL  shift, and go to state 5
+
+    $default  reduce using rule 16 (stmtList)
+
+    decl      go to state 6
+    type      go to state 7
+    stmtList  go to state 8
+
+
+State 3
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 4
+
+   14 type: INT .
+
+    $default  reduce using rule 14 (type)
+
+
+State 5
+
+   15 type: REAL .
+
+    $default  reduce using rule 15 (type)
+
+
+State 6
+
+    3 declPart: declPart decl .
+
+    $default  reduce using rule 3 (declPart)
+
+
+State 7
+
+    5 decl: type . ID @1 vinit ';'
+    6     | type . ID '[' INUM ']' ';'
+
+    ID  shift, and go to state 9
+
+
+State 8
+
+    1 program: declPart stmtList .
+   17 stmtList: stmtList . stmt
+
+    ID      shift, and go to state 10
+    IF      shift, and go to state 11
+    WHILE   shift, and go to state 12
+    REPEAT  shift, and go to state 13
+
+    $default  reduce using rule 1 (program)
+
+    stmt    go to state 14
+    ifPart  go to state 15
+    vname   go to state 16
+
+
+State 9
+
+    5 decl: type ID . @1 vinit ';'
+    6     | type ID . '[' INUM ']' ';'
+
+    '['  shift, and go to state 17
+
+    $default  reduce using rule 4 (@1)
+
+    @1  go to state 18
+
+
+State 10
+
+   40 vname: ID .
+
+    $default  reduce using rule 40 (vname)
+
+
+State 11
+
+   27 ifPart: IF . '(' cond ')' '{' stmtList '}'
+
+    '('  shift, and go to state 19
+
+
+State 12
+
+   24 stmt: WHILE . '(' cond ')' '{' stmtList '}'
+
+    '('  shift, and go to state 20
+
+
+State 13
+
+   26 stmt: REPEAT . '(' expr ')' $@5 '{' stmtList '}'
+
+    '('  shift, and go to state 21
+
+
+State 14
+
+   17 stmtList: stmtList stmt .
+
+    $default  reduce using rule 17 (stmtList)
+
+
+State 15
+
+   23 stmt: ifPart . elsePart
+   28 ifPart: ifPart . ELSIF '(' cond ')' '{' stmtList '}'
+
+    ELSIF  shift, and go to state 22
+    ELSE   shift, and go to state 23
+
+    $default  reduce using rule 29 (elsePart)
+
+    elsePart  go to state 24
+
+
+State 16
+
+   19 stmt: vname . '=' $@2 expr ';'
+   22     | vname . '[' $@3 expr ']' $@4 '=' expr ';'
+
+    '['  shift, and go to state 25
+    '='  shift, and go to state 26
+
+
+State 17
+
+    6 decl: type ID '[' . INUM ']' ';'
+
+    INUM  shift, and go to state 27
+
+
+State 18
+
+    5 decl: type ID @1 . vinit ';'
+
+    '='  shift, and go to state 28
+
+    $default  reduce using rule 7 (vinit)
+
+    vinit  go to state 29
+
+
+State 19
+
+   27 ifPart: IF '(' . cond ')' '{' stmtList '}'
+
+    ID      shift, and go to state 10
+    INUM    shift, and go to state 30
+    RNUM    shift, and go to state 31
+    ADDOP   shift, and go to state 32
+    ULOGOP  shift, and go to state 33
+    '('     shift, and go to state 34
+
+    expr   go to state 35
+    vname  go to state 36
+    cond   go to state 37
+
+
+State 20
+
+   24 stmt: WHILE '(' . cond ')' '{' stmtList '}'
+
+    ID      shift, and go to state 10
+    INUM    shift, and go to state 30
+    RNUM    shift, and go to state 31
+    ADDOP   shift, and go to state 32
+    ULOGOP  shift, and go to state 33
+    '('     shift, and go to state 34
+
+    expr   go to state 35
+    vname  go to state 36
+    cond   go to state 38
+
+
+State 21
+
+   26 stmt: REPEAT '(' . expr ')' $@5 '{' stmtList '}'
+
+    ID     shift, and go to state 10
+    INUM   shift, and go to state 30
+    RNUM   shift, and go to state 31
+    ADDOP  shift, and go to state 32
+    '('    shift, and go to state 39
+
+    expr   go to state 40
+    vname  go to state 36
+
+
+State 22
+
+   28 ifPart: ifPart ELSIF . '(' cond ')' '{' stmtList '}'
+
+    '('  shift, and go to state 41
+
+
+State 23
+
+   30 elsePart: ELSE . '{' stmtList '}'
+
+    '{'  shift, and go to state 42
+
+
+State 24
+
+   23 stmt: ifPart elsePart .
+
+    $default  reduce using rule 23 (stmt)
+
+
+State 25
+
+   22 stmt: vname '[' . $@3 expr ']' $@4 '=' expr ';'
+
+    $default  reduce using rule 20 ($@3)
+
+    $@3  go to state 43
+
+
+State 26
+
+   19 stmt: vname '=' . $@2 expr ';'
+
+    $default  reduce using rule 18 ($@2)
+
+    $@2  go to state 44
+
+
+State 27
+
+    6 decl: type ID '[' INUM . ']' ';'
+
+    ']'  shift, and go to state 45
+
+
+State 28
+
+    8 vinit: '=' . iconst
+    9      | '=' . rconst
+
+    INUM   shift, and go to state 46
+    RNUM   shift, and go to state 47
+    ADDOP  shift, and go to state 48
+
+    iconst  go to state 49
+    rconst  go to state 50
+
+
+State 29
+
+    5 decl: type ID @1 vinit . ';'
+
+    ';'  shift, and go to state 51
+
+
+State 30
+
+   38 expr: INUM .
+
+    $default  reduce using rule 38 (expr)
+
+
+State 31
+
+   39 expr: RNUM .
+
+    $default  reduce using rule 39 (expr)
+
+
+State 32
+
+   33 expr: ADDOP . expr
+
+    ID     shift, and go to state 10
+    INUM   shift, and go to state 30
+    RNUM   shift, and go to state 31
+    ADDOP  shift, and go to state 32
+    '('    shift, and go to state 39
+
+    expr   go to state 52
+    vname  go to state 36
+
+
+State 33
+
+   42 cond: ULOGOP . cond
+
+    ID      shift, and go to state 10
+    INUM    shift, and go to state 30
+    RNUM    shift, and go to state 31
+    ADDOP   shift, and go to state 32
+    ULOGOP  shift, and go to state 33
+    '('     shift, and go to state 34
+
+    expr   go to state 35
+    vname  go to state 36
+    cond   go to state 53
+
+
+State 34
+
+   34 expr: '(' . expr ')'
+   44 cond: '(' . cond ')'
+
+    ID      shift, and go to state 10
+    INUM    shift, and go to state 30
+    RNUM    shift, and go to state 31
+    ADDOP   shift, and go to state 32
+    ULOGOP  shift, and go to state 33
+    '('     shift, and go to state 34
+
+    expr   go to state 54
+    vname  go to state 36
+    cond   go to state 55
+
+
+State 35
+
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+   43 cond: expr . RELOP expr
+
+    ADDOP  shift, and go to state 56
+    MULOP  shift, and go to state 57
+    RELOP  shift, and go to state 58
+
+
+State 36
+
+   35 expr: vname .
+   37     | vname . '[' $@6 expr ']'
+
+    '['  shift, and go to state 59
+
+    $default  reduce using rule 35 (expr)
+
+
+State 37
+
+   27 ifPart: IF '(' cond . ')' '{' stmtList '}'
+   41 cond: cond . LOGOP cond
+
+    LOGOP  shift, and go to state 60
+    ')'    shift, and go to state 61
+
+
+State 38
+
+   24 stmt: WHILE '(' cond . ')' '{' stmtList '}'
+   41 cond: cond . LOGOP cond
+
+    LOGOP  shift, and go to state 60
+    ')'    shift, and go to state 62
+
+
+State 39
+
+   34 expr: '(' . expr ')'
+
+    ID     shift, and go to state 10
+    INUM   shift, and go to state 30
+    RNUM   shift, and go to state 31
+    ADDOP  shift, and go to state 32
+    '('    shift, and go to state 39
+
+    expr   go to state 63
+    vname  go to state 36
+
+
+State 40
+
+   26 stmt: REPEAT '(' expr . ')' $@5 '{' stmtList '}'
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+
+    ADDOP  shift, and go to state 56
+    MULOP  shift, and go to state 57
+    ')'    shift, and go to state 64
+
+
+State 41
+
+   28 ifPart: ifPart ELSIF '(' . cond ')' '{' stmtList '}'
+
+    ID      shift, and go to state 10
+    INUM    shift, and go to state 30
+    RNUM    shift, and go to state 31
+    ADDOP   shift, and go to state 32
+    ULOGOP  shift, and go to state 33
+    '('     shift, and go to state 34
+
+    expr   go to state 35
+    vname  go to state 36
+    cond   go to state 65
+
+
+State 42
+
+   30 elsePart: ELSE '{' . stmtList '}'
+
+    $default  reduce using rule 16 (stmtList)
+
+    stmtList  go to state 66
+
+
+State 43
+
+   22 stmt: vname '[' $@3 . expr ']' $@4 '=' expr ';'
+
+    ID     shift, and go to state 10
+    INUM   shift, and go to state 30
+    RNUM   shift, and go to state 31
+    ADDOP  shift, and go to state 32
+    '('    shift, and go to state 39
+
+    expr   go to state 67
+    vname  go to state 36
+
+
+State 44
+
+   19 stmt: vname '=' $@2 . expr ';'
+
+    ID     shift, and go to state 10
+    INUM   shift, and go to state 30
+    RNUM   shift, and go to state 31
+    ADDOP  shift, and go to state 32
+    '('    shift, and go to state 39
+
+    expr   go to state 68
+    vname  go to state 36
+
+
+State 45
+
+    6 decl: type ID '[' INUM ']' . ';'
+
+    ';'  shift, and go to state 69
+
+
+State 46
+
+   10 iconst: INUM .
+
+    $default  reduce using rule 10 (iconst)
+
+
+State 47
+
+   12 rconst: RNUM .
+
+    $default  reduce using rule 12 (rconst)
+
+
+State 48
+
+   11 iconst: ADDOP . INUM
+   13 rconst: ADDOP . RNUM
+
+    INUM  shift, and go to state 70
+    RNUM  shift, and go to state 71
+
+
+State 49
+
+    8 vinit: '=' iconst .
+
+    $default  reduce using rule 8 (vinit)
+
+
+State 50
+
+    9 vinit: '=' rconst .
+
+    $default  reduce using rule 9 (vinit)
+
+
+State 51
+
+    5 decl: type ID @1 vinit ';' .
+
+    $default  reduce using rule 5 (decl)
+
+
+State 52
+
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+   33     | ADDOP expr .
+
+    $default  reduce using rule 33 (expr)
+
+
+State 53
+
+   41 cond: cond . LOGOP cond
+   42     | ULOGOP cond .
+
+    $default  reduce using rule 42 (cond)
+
+
+State 54
+
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+   34     | '(' expr . ')'
+   43 cond: expr . RELOP expr
+
+    ADDOP  shift, and go to state 56
+    MULOP  shift, and go to state 57
+    RELOP  shift, and go to state 58
+    ')'    shift, and go to state 72
+
+
+State 55
+
+   41 cond: cond . LOGOP cond
+   44     | '(' cond . ')'
+
+    LOGOP  shift, and go to state 60
+    ')'    shift, and go to state 73
+
+
+State 56
+
+   31 expr: expr ADDOP . expr
+
+    ID     shift, and go to state 10
+    INUM   shift, and go to state 30
+    RNUM   shift, and go to state 31
+    ADDOP  shift, and go to state 32
+    '('    shift, and go to state 39
+
+    expr   go to state 74
+    vname  go to state 36
+
+
+State 57
+
+   32 expr: expr MULOP . expr
+
+    ID     shift, and go to state 10
+    INUM   shift, and go to state 30
+    RNUM   shift, and go to state 31
+    ADDOP  shift, and go to state 32
+    '('    shift, and go to state 39
+
+    expr   go to state 75
+    vname  go to state 36
+
+
+State 58
+
+   43 cond: expr RELOP . expr
+
+    ID     shift, and go to state 10
+    INUM   shift, and go to state 30
+    RNUM   shift, and go to state 31
+    ADDOP  shift, and go to state 32
+    '('    shift, and go to state 39
+
+    expr   go to state 76
+    vname  go to state 36
+
+
+State 59
+
+   37 expr: vname '[' . $@6 expr ']'
+
+    $default  reduce using rule 36 ($@6)
+
+    $@6  go to state 77
+
+
+State 60
+
+   41 cond: cond LOGOP . cond
+
+    ID      shift, and go to state 10
+    INUM    shift, and go to state 30
+    RNUM    shift, and go to state 31
+    ADDOP   shift, and go to state 32
+    ULOGOP  shift, and go to state 33
+    '('     shift, and go to state 34
+
+    expr   go to state 35
+    vname  go to state 36
+    cond   go to state 78
+
+
+State 61
+
+   27 ifPart: IF '(' cond ')' . '{' stmtList '}'
+
+    '{'  shift, and go to state 79
+
+
+State 62
+
+   24 stmt: WHILE '(' cond ')' . '{' stmtList '}'
+
+    '{'  shift, and go to state 80
+
+
+State 63
+
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+   34     | '(' expr . ')'
+
+    ADDOP  shift, and go to state 56
+    MULOP  shift, and go to state 57
+    ')'    shift, and go to state 72
+
+
+State 64
+
+   26 stmt: REPEAT '(' expr ')' . $@5 '{' stmtList '}'
+
+    $default  reduce using rule 25 ($@5)
+
+    $@5  go to state 81
+
+
+State 65
+
+   28 ifPart: ifPart ELSIF '(' cond . ')' '{' stmtList '}'
+   41 cond: cond . LOGOP cond
+
+    LOGOP  shift, and go to state 60
+    ')'    shift, and go to state 82
+
+
+State 66
+
+   17 stmtList: stmtList . stmt
+   30 elsePart: ELSE '{' stmtList . '}'
+
+    ID      shift, and go to state 10
+    IF      shift, and go to state 11
+    WHILE   shift, and go to state 12
+    REPEAT  shift, and go to state 13
+    '}'     shift, and go to state 83
+
+    stmt    go to state 14
+    ifPart  go to state 15
+    vname   go to state 16
+
+
+State 67
+
+   22 stmt: vname '[' $@3 expr . ']' $@4 '=' expr ';'
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+
+    ADDOP  shift, and go to state 56
+    MULOP  shift, and go to state 57
+    ']'    shift, and go to state 84
+
+
+State 68
+
+   19 stmt: vname '=' $@2 expr . ';'
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+
+    ADDOP  shift, and go to state 56
+    MULOP  shift, and go to state 57
+    ';'    shift, and go to state 85
+
+
+State 69
+
+    6 decl: type ID '[' INUM ']' ';' .
+
+    $default  reduce using rule 6 (decl)
+
+
+State 70
+
+   11 iconst: ADDOP INUM .
+
+    $default  reduce using rule 11 (iconst)
+
+
+State 71
+
+   13 rconst: ADDOP RNUM .
+
+    $default  reduce using rule 13 (rconst)
+
+
+State 72
+
+   34 expr: '(' expr ')' .
+
+    $default  reduce using rule 34 (expr)
+
+
+State 73
+
+   44 cond: '(' cond ')' .
+
+    $default  reduce using rule 44 (cond)
+
+
+State 74
+
+   31 expr: expr . ADDOP expr
+   31     | expr ADDOP expr .
+   32     | expr . MULOP expr
+
+    MULOP  shift, and go to state 57
+
+    $default  reduce using rule 31 (expr)
+
+
+State 75
+
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+   32     | expr MULOP expr .
+
+    $default  reduce using rule 32 (expr)
+
+
+State 76
+
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+   43 cond: expr RELOP expr .
+
+    ADDOP  shift, and go to state 56
+    MULOP  shift, and go to state 57
+
+    $default  reduce using rule 43 (cond)
+
+
+State 77
+
+   37 expr: vname '[' $@6 . expr ']'
+
+    ID     shift, and go to state 10
+    INUM   shift, and go to state 30
+    RNUM   shift, and go to state 31
+    ADDOP  shift, and go to state 32
+    '('    shift, and go to state 39
+
+    expr   go to state 86
+    vname  go to state 36
+
+
+State 78
+
+   41 cond: cond . LOGOP cond
+   41     | cond LOGOP cond .
+
+    $default  reduce using rule 41 (cond)
+
+
+State 79
+
+   27 ifPart: IF '(' cond ')' '{' . stmtList '}'
+
+    $default  reduce using rule 16 (stmtList)
+
+    stmtList  go to state 87
+
+
+State 80
+
+   24 stmt: WHILE '(' cond ')' '{' . stmtList '}'
+
+    $default  reduce using rule 16 (stmtList)
+
+    stmtList  go to state 88
+
+
+State 81
+
+   26 stmt: REPEAT '(' expr ')' $@5 . '{' stmtList '}'
+
+    '{'  shift, and go to state 89
+
+
+State 82
+
+   28 ifPart: ifPart ELSIF '(' cond ')' . '{' stmtList '}'
+
+    '{'  shift, and go to state 90
+
+
+State 83
+
+   30 elsePart: ELSE '{' stmtList '}' .
+
+    $default  reduce using rule 30 (elsePart)
+
+
+State 84
+
+   22 stmt: vname '[' $@3 expr ']' . $@4 '=' expr ';'
+
+    $default  reduce using rule 21 ($@4)
+
+    $@4  go to state 91
+
+
+State 85
+
+   19 stmt: vname '=' $@2 expr ';' .
+
+    $default  reduce using rule 19 (stmt)
+
+
+State 86
+
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+   37     | vname '[' $@6 expr . ']'
+
+    ADDOP  shift, and go to state 56
+    MULOP  shift, and go to state 57
+    ']'    shift, and go to state 92
+
+
+State 87
+
+   17 stmtList: stmtList . stmt
+   27 ifPart: IF '(' cond ')' '{' stmtList . '}'
+
+    ID      shift, and go to state 10
+    IF      shift, and go to state 11
+    WHILE   shift, and go to state 12
+    REPEAT  shift, and go to state 13
+    '}'     shift, and go to state 93
+
+    stmt    go to state 14
+    ifPart  go to state 15
+    vname   go to state 16
+
+
+State 88
+
+   17 stmtList: stmtList . stmt
+   24 stmt: WHILE '(' cond ')' '{' stmtList . '}'
+
+    ID      shift, and go to state 10
+    IF      shift, and go to state 11
+    WHILE   shift, and go to state 12
+    REPEAT  shift, and go to state 13
+    '}'     shift, and go to state 94
+
+    stmt    go to state 14
+    ifPart  go to state 15
+    vname   go to state 16
+
+
+State 89
+
+   26 stmt: REPEAT '(' expr ')' $@5 '{' . stmtList '}'
+
+    $default  reduce using rule 16 (stmtList)
+
+    stmtList  go to state 95
+
+
+State 90
+
+   28 ifPart: ifPart ELSIF '(' cond ')' '{' . stmtList '}'
+
+    $default  reduce using rule 16 (stmtList)
+
+    stmtList  go to state 96
+
+
+State 91
+
+   22 stmt: vname '[' $@3 expr ']' $@4 . '=' expr ';'
+
+    '='  shift, and go to state 97
+
+
+State 92
+
+   37 expr: vname '[' $@6 expr ']' .
+
+    $default  reduce using rule 37 (expr)
+
+
+State 93
+
+   27 ifPart: IF '(' cond ')' '{' stmtList '}' .
+
+    $default  reduce using rule 27 (ifPart)
+
+
+State 94
+
+   24 stmt: WHILE '(' cond ')' '{' stmtList '}' .
+
+    $default  reduce using rule 24 (stmt)
+
+
+State 95
+
+   17 stmtList: stmtList . stmt
+   26 stmt: REPEAT '(' expr ')' $@5 '{' stmtList . '}'
+
+    ID      shift, and go to state 10
+    IF      shift, and go to state 11
+    WHILE   shift, and go to state 12
+    REPEAT  shift, and go to state 13
+    '}'     shift, and go to state 98
+
+    stmt    go to state 14
+    ifPart  go to state 15
+    vname   go to state 16
+
+
+State 96
+
+   17 stmtList: stmtList . stmt
+   28 ifPart: ifPart ELSIF '(' cond ')' '{' stmtList . '}'
+
+    ID      shift, and go to state 10
+    IF      shift, and go to state 11
+    WHILE   shift, and go to state 12
+    REPEAT  shift, and go to state 13
+    '}'     shift, and go to state 99
+
+    stmt    go to state 14
+    ifPart  go to state 15
+    vname   go to state 16
+
+
+State 97
+
+   22 stmt: vname '[' $@3 expr ']' $@4 '=' . expr ';'
+
+    ID     shift, and go to state 10
+    INUM   shift, and go to state 30
+    RNUM   shift, and go to state 31
+    ADDOP  shift, and go to state 32
+    '('    shift, and go to state 39
+
+    expr   go to state 100
+    vname  go to state 36
+
+
+State 98
+
+   26 stmt: REPEAT '(' expr ')' $@5 '{' stmtList '}' .
+
+    $default  reduce using rule 26 (stmt)
+
+
+State 99
+
+   28 ifPart: ifPart ELSIF '(' cond ')' '{' stmtList '}' .
+
+    $default  reduce using rule 28 (ifPart)
+
+
+State 100
+
+   22 stmt: vname '[' $@3 expr ']' $@4 '=' expr . ';'
+   31 expr: expr . ADDOP expr
+   32     | expr . MULOP expr
+
+    ADDOP  shift, and go to state 56
+    MULOP  shift, and go to state 57
+    ';'    shift, and go to state 101
+
+
+State 101
+
+   22 stmt: vname '[' $@3 expr ']' $@4 '=' expr ';' .
+
+    $default  reduce using rule 22 (stmt)

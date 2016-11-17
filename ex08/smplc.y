@@ -206,24 +206,24 @@ expr
 | expr MULOP expr { $$ = makeBinExprTree($2,$1,$3); }  // 式 MULOP 式 について　二項演算子の乗除算と剰余算
 | ADDOP expr %prec SIGNOP { $$ = new UniExprTree($1,$2); }    // 式 MULOP 式 | SIGNOP 式 について　符号付きの式
 | '(' expr ')' { $$ = $2; }   // '(' 式 ')' について
-| vname
-{  if($1->isArray() == true){//意味規則を満たさないとき
-    $$ = compileError(EDeclareAsArray, $1);
-  } else $$ = makeAssignTree($1, $$, NULL);
-}    // ID について　単純変数の参照
-| vname '['
+| vname // ID について
+{ if($1->isArray() == true){//意味規則を満たさないとき
+    compileError(EDeclaredAsArray, $1->getName().c_str());
+  } else $$ = new SmplVarNode($1->getName(),$1->getLocation(),$1->getType());
+}
+| vname '[' // ID '[' について
 { if($1->isArray() != true){//意味規則を満たさないとき
-    $$ = compileError(EDeclareAsSimpleVar, $1);
+    compileError(EDeclaredAsSimpleVar, $1->getName().c_str());
   }
-}    // ID '[' について　配列要素の参照
-expr ']'
-{ if($1->getType() != TInt){
-    $$ = compileError(EIndexTypeMismatch, $1);
+}
+expr ']' // 式 ']' について
+{ if($4->getType() != TInt){
+    compileError(EIndexTypeMismatch, $1->getName().c_str());
   }
-  else $$ = make/**/Tree();
-  }    // 式 ']' について　配列要素の参照
-| INUM { $$ = makeRelationTree($1,); }   //INUM について　整数
-| RNUM { $$ = makeRelationTree($1,); }  //RNUM について　実数
+  else $$ = new ArrayElemTree($1->getName(), $1->getLocation(), $1->getType(), $4, $1->getArraySize());
+  }
+| INUM { $$ = new INumNode($1); }   //INUM について
+| RNUM { $$ = new RNumNode($1); }  //RNUM について
 ;
 
 // stmt と expr の右辺中の ID を置き換えたもの
@@ -318,12 +318,12 @@ static AssignTree *makeAssignTree(VarEntry *var,
 
     // 右の構文木をTInt型に変換する
     if (ltype == TInt && rtype == TReal) {
-        expr = new UniExprTree(Creal2int, expr);
+        expr = new UniExprTree(Creal2int, expr, ltype);
     }
 
     // 右の構文木をTReal型に変換する
     else if (ltype == TReal && rtype == TInt) {
-        expr = new UniExprTree(Cint2real, expr);
+        expr = new UniExprTree(Cint2real, expr, ltype);
     }
  }
 
@@ -346,12 +346,12 @@ static ExprTree *makeBinExprTree(CConst op, ExprTree *lexp, ExprTree *rexp)
     
     // 左の構文木をTReal型に変換する
     if (ltype == TInt && rtype == TReal) {
-        lexp = new UniExprTree(Cint2real, lexp);
+        lexp = new UniExprTree(Cint2real, lexp, TReal);
     }
 
     // 右の構文木をTReal型に変換する
     else if (ltype == TReal && rtype == TInt) {
-        rexp = new UniExprTree(Cint2real, rexp);
+        rexp = new UniExprTree(Cint2real, rexp, TReal);
     }
   }
 
@@ -371,12 +371,12 @@ static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
     
     // 左の構文木をTReal型に変換する
     if (ltype == TInt && rtype == TReal) {
-        e1 = new UniExprTree(Cint2real, e1);
+        e1 = new UniExprTree(Cint2real, e1, TReal);
     }
 
     // 右の構文木をTReal型に変換する
     else if (ltype == TReal && rtype == TInt) {
-        e2 = new UniExprTree(Cint2real, e2);
+        e2 = new UniExprTree(Cint2real, e2, TReal);
     }
   }
 
