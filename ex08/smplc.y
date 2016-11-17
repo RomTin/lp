@@ -147,21 +147,6 @@ stmtList
 // 置き換えられる。
 stmt
   : vname '='
-<<<<<<< HEAD
-      { }
-    expr ';'
-      { }
-  | vname '['
-      { }
-    expr ']'
-      { }
-    '=' expr ';'
-      { }
-  | ifPart elsePart { $$ = new IfTree($1,$2); }
-  | WHILE '(' cond ')' '{' stmtList '}' { $$ = new WhileTree($3,$6); }
-  | REPEAT '(' expr ')'
-      { }
-=======
       {
       //vnameが配列である場合は単純変数ではないのでコンパイルエラーを出す
       if( $1->isArray() == true ) {
@@ -197,7 +182,6 @@ stmt
         compileError(ERepeatTypeMismatch);
       }
       }
->>>>>>> test
     '{' stmtList '}' { $$ = new RepeatTree($3,$7); }
   ;
 
@@ -222,21 +206,6 @@ elsePart
 // Yacc では、右辺に現れる２つの ID は、非終端記号 vname で
 // 置き換えられる。
 expr
-<<<<<<< HEAD
-  : expr ADDOP expr { $$ = makeBinExprTree($2,$1,$3); }
-  | expr MULOP expr { $$ = makeBinExprTree($2,$1,$3); }
-  | ADDOP expr %prec SIGNOP { $$ = new UniExprTree($1,$2); }
-  | '(' expr ')' { $$ = $2; }
-  | vname
-      { }
-  | vname '['
-      { }
-    expr ']'
-      { }
-  | INUM { }
-  | RNUM { }
-  ;
-=======
 : expr ADDOP expr { $$ = makeBinExprTree($2,$1,$3); }   // 式 ADDOP 式 について　二項演算子の加減算
 | expr MULOP expr { $$ = makeBinExprTree($2,$1,$3); }  // 式 MULOP 式 について　二項演算子の乗除算と剰余算
 | ADDOP expr %prec SIGNOP { $$ = new UniExprTree($1,$2); }    // 式 MULOP 式 | SIGNOP 式 について　符号付きの式
@@ -260,7 +229,6 @@ expr ']' // 式 ']' について
 | INUM { $$ = new INumNode($1); }   //INUM について
 | RNUM { $$ = new RNumNode($1); }  //RNUM について
 ;
->>>>>>> test
 
 // stmt と expr の右辺中の ID を置き換えたもの
 vname
@@ -329,13 +297,6 @@ static void allocateArray(VarEntry *var)
 static AssignTree *makeAssignTree(VarEntry *var,
                                   ExprTree *expr, ExprTree *index)
 {
-<<<<<<< HEAD
-
-}
-
-static ExprTree *makeBinExprTree(CConst op, ExprTree *lexp, ExprTree *rexp)
-{
-=======
   int loc = var->getLocation();
   string name = var->getName();
   Type type = var->getType();
@@ -401,14 +362,11 @@ static ExprTree *makeBinExprTree(CConst op, ExprTree *lexp, ExprTree *rexp)
  // 二項演算子をもつ式の構文木を生成し，返却する．
  BinExprTree *btree = new BinExprTree(op, lexp, rexp);
  return btree;
->>>>>>> test
 
 }
 
 static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
 {
-<<<<<<< HEAD
-=======
  // 型変換を行う
  Type ltype = e1->getType();
  Type rtype = e2->getType();
@@ -429,7 +387,6 @@ static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
  // 関係演算子をもつ条件を構文木を作成し，返却する
  RelationTree *rtree = new RelationTree(op, e1, e2);
  return rtree;
->>>>>>> test
 
 }
 
