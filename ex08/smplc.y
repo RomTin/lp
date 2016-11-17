@@ -184,19 +184,29 @@ elsePart
 // Yacc では、右辺に現れる２つの ID は、非終端記号 vname で
 // 置き換えられる。
 expr
-  : expr ADDOP expr { $$ = makeBinExprTree($2,$1,$3); }
-  | expr MULOP expr { $$ = makeBinExprTree($2,$1,$3); }
-  | ADDOP expr %prec SIGNOP { $$ = new UniExprTree($1,$2); }
-  | '(' expr ')' { $$ = $2; }
-  | vname
-      { }
-  | vname '['
-      { }
-    expr ']'
-      { }
-  | INUM { }
-  | RNUM { }
-  ;
+: expr ADDOP expr { $$ = makeBinExprTree($2,$1,$3); }   // 式 ADDOP 式 について　二項演算子の加減算
+| expr MULOP expr { $$ = makeBinExprTree($2,$1,$3); }  // 式 MULOP 式 について　二項演算子の乗除算と剰余算
+| ADDOP expr %prec SIGNOP { $$ = new UniExprTree($1,$2); }    // 式 MULOP 式 | SIGNOP 式 について　符号付きの式
+| '(' expr ')' { $$ = $2; }   // '(' 式 ')' について
+| vname
+{  if($1->isArray() == true){//意味規則を満たさないとき
+    $$ = compileError(EDeclareAsArray, $1);
+  } else $$ = makeAssignTree($1, $$, NULL);
+}    // ID について　単純変数の参照
+| vname '['
+{ if($1->isArray() != true){//意味規則を満たさないとき
+    $$ = compileError(EDeclareAsSimpleVar, $1);
+  }
+}    // ID '[' について　配列要素の参照
+expr ']'
+{ if($1->getType() != TInt){
+    $$ = compileError(EIndexTypeMismatch, $1);
+  }
+  else $$ = make/**/Tree();
+  }    // 式 ']' について　配列要素の参照
+| INUM { $$ = makeRelationTree($1,); }   //INUM について　整数
+| RNUM { $$ = makeRelationTree($1,); }  //RNUM について　実数
+;
 
 // stmt と expr の右辺中の ID を置き換えたもの
 vname
