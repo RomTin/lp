@@ -188,24 +188,24 @@ expr
 | expr MULOP expr { $$ = makeBinExprTree($2,$1,$3); }  // 式 MULOP 式 について　二項演算子の乗除算と剰余算
 | ADDOP expr %prec SIGNOP { $$ = new UniExprTree($1,$2); }    // 式 MULOP 式 | SIGNOP 式 について　符号付きの式
 | '(' expr ')' { $$ = $2; }   // '(' 式 ')' について
-| vname
-{  if($1->isArray() == true){//意味規則を満たさないとき
-    $$ = compileError(EDeclareAsArray, $1);
-  } else $$ = makeAssignTree($1, $$, NULL);
-}    // ID について　単純変数の参照
-| vname '['
+| vname // ID について
+{ if($1->isArray() == true){//意味規則を満たさないとき
+    compileError(EDeclaredAsArray, $1->getName().c_str());
+  } else $$ = new SmplVarNode($1->getName(),$1->getLocation(),$1->getType());
+}
+| vname '[' // ID '[' について
 { if($1->isArray() != true){//意味規則を満たさないとき
-    $$ = compileError(EDeclareAsSimpleVar, $1);
+    compileError(EDeclaredAsSimpleVar, $1->getName().c_str());
   }
-}    // ID '[' について　配列要素の参照
-expr ']'
-{ if($1->getType() != TInt){
-    $$ = compileError(EIndexTypeMismatch, $1);
+}
+expr ']' // 式 ']' について
+{ if($4->getType() != TInt){
+    compileError(EIndexTypeMismatch, $1->getName().c_str());
   }
-  else $$ = make/**/Tree();
-  }    // 式 ']' について　配列要素の参照
-| INUM { $$ = makeRelationTree($1,); }   //INUM について　整数
-| RNUM { $$ = makeRelationTree($1,); }  //RNUM について　実数
+  else $$ = new ArrayElemTree($1->getName(), $1->getLocation(), $1->getType(), $4, $1->getArraySize());
+  }
+| INUM { $$ = new INumNode($1); }   //INUM について
+| RNUM { $$ = new RNumNode($1); }  //RNUM について
 ;
 
 // stmt と expr の右辺中の ID を置き換えたもの

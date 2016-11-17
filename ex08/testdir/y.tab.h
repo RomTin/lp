@@ -1,20 +1,19 @@
-/* A Bison parser, made by GNU Bison 2.4.3.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
-/* Skeleton interface for Bison's Yacc-like parsers in C
-   
-      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
-   2009, 2010 Free Software Foundation, Inc.
-   
+/* Bison interface for Yacc-like parsers in C
+
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
-   
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
@@ -27,36 +26,44 @@
    special exception, which will cause the skeleton and the resulting
    Bison output files to be licensed under the GNU General Public
    License without this special exception.
-   
+
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
+/* Debug traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 0
+#endif
+#if YYDEBUG
+extern int yydebug;
+#endif
 
-/* Tokens.  */
+/* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum yytokentype {
-     ID = 258,
-     INUM = 259,
-     RNUM = 260,
-     ADDOP = 261,
-     MULOP = 262,
-     RELOP = 263,
-     LOGOP = 264,
-     ULOGOP = 265,
-     SIGNOP = 266,
-     IF = 267,
-     ELSIF = 268,
-     ELSE = 269,
-     WHILE = 270,
-     REPEAT = 271,
-     RETURN = 272,
-     VOID = 273,
-     INT = 274,
-     REAL = 275
-   };
+  enum yytokentype
+  {
+    ID = 258,
+    INUM = 259,
+    RNUM = 260,
+    ADDOP = 261,
+    MULOP = 262,
+    RELOP = 263,
+    LOGOP = 264,
+    ULOGOP = 265,
+    SIGNOP = 266,
+    IF = 267,
+    ELSIF = 268,
+    ELSE = 269,
+    WHILE = 270,
+    REPEAT = 271,
+    RETURN = 272,
+    VOID = 273,
+    INT = 274,
+    REAL = 275
+  };
 #endif
 /* Tokens.  */
 #define ID 258
@@ -78,15 +85,12 @@
 #define INT 274
 #define REAL 275
 
-
-
-
+/* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE
-{
 
-/* Line 1685 of yacc.c  */
-#line 43 "../smplc.y"
+union YYSTYPE
+{
+#line 46 "../smplc.y" /* yacc.c:1909  */
 
   CConst op;            // 演算子を表す定数
   string *symbol;       // 識別子名へのポインタ
@@ -101,16 +105,17 @@ typedef union YYSTYPE
   Type type;            // 変数の型
   int loc;              // 番地
 
+#line 109 "y.tab.h" /* yacc.c:1909  */
+};
 
-
-/* Line 1685 of yacc.c  */
-#line 108 "y.tab.h"
-} YYSTYPE;
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
+
 extern YYSTYPE yylval;
 
+int yyparse (void);
 
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
