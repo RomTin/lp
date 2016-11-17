@@ -147,6 +147,7 @@ stmtList
 // 置き換えられる。
 stmt
   : vname '='
+<<<<<<< HEAD
       { }
     expr ';'
       { }
@@ -160,6 +161,43 @@ stmt
   | WHILE '(' cond ')' '{' stmtList '}' { $$ = new WhileTree($3,$6); }
   | REPEAT '(' expr ')'
       { }
+=======
+      {
+      //vnameが配列である場合は単純変数ではないのでコンパイルエラーを出す
+      if( $1->isArray() == true ) {
+      string name = $1->getName();
+        compileError(EDeclaredAsArray, name.c_str(), name.c_str());
+      }
+      }
+    expr ';'
+      { $$ = makeAssignTree($1, $4, NULL); /* 代入文の構文木を生成し合成属性に代入する */}
+  | vname '['
+      {
+      //vnameが単純変数である場合は配列ではないのでコンパイルエラーを出す
+      if( $1->isArray() == false) {
+        string name = $1->getName();
+        compileError(EDeclaredAsSimpleVar, name.c_str(), name.c_str());
+      }
+      }
+    expr ']'
+      {
+      //配列の添字exprはInt型である必要があるので、違う場合にはコンパイルエラーを出す
+      if( $4->getType() != TInt ){
+        compileError(EIndexTypeMismatch, $1->getName().c_str(), $1->getName().c_str());
+      }
+      }
+    '=' expr ';'
+      { $$ = makeAssignTree($1, $8, $4); /* 代入文の構文木を生成し合成属性に代入する*/ }
+  | ifPart elsePart { $$ = new IfTree($1,$2); }
+  | WHILE '(' cond ')' '{' stmtList '}' { $$ = new WhileTree($3,$6); }
+  | REPEAT '(' expr ')'
+      {
+      //repeat構文はIntで回数を指定するので、型が違う場合にはコンパイルエラーを出す
+      if( $3->getType() != TInt ){
+        compileError(ERepeatTypeMismatch);
+      }
+      }
+>>>>>>> test
     '{' stmtList '}' { $$ = new RepeatTree($3,$7); }
   ;
 
@@ -184,6 +222,7 @@ elsePart
 // Yacc では、右辺に現れる２つの ID は、非終端記号 vname で
 // 置き換えられる。
 expr
+<<<<<<< HEAD
   : expr ADDOP expr { $$ = makeBinExprTree($2,$1,$3); }
   | expr MULOP expr { $$ = makeBinExprTree($2,$1,$3); }
   | ADDOP expr %prec SIGNOP { $$ = new UniExprTree($1,$2); }
@@ -197,6 +236,31 @@ expr
   | INUM { }
   | RNUM { }
   ;
+=======
+: expr ADDOP expr { $$ = makeBinExprTree($2,$1,$3); }   // 式 ADDOP 式 について　二項演算子の加減算
+| expr MULOP expr { $$ = makeBinExprTree($2,$1,$3); }  // 式 MULOP 式 について　二項演算子の乗除算と剰余算
+| ADDOP expr %prec SIGNOP { $$ = new UniExprTree($1,$2); }    // 式 MULOP 式 | SIGNOP 式 について　符号付きの式
+| '(' expr ')' { $$ = $2; }   // '(' 式 ')' について
+| vname // ID について
+{ if($1->isArray() == true){//意味規則を満たさないとき
+    compileError(EDeclaredAsArray, $1->getName().c_str());
+  } else $$ = new SmplVarNode($1->getName(),$1->getLocation(),$1->getType());
+}
+| vname '[' // ID '[' について
+{ if($1->isArray() != true){//意味規則を満たさないとき
+    compileError(EDeclaredAsSimpleVar, $1->getName().c_str());
+  }
+}
+expr ']' // 式 ']' について
+{ if($4->getType() != TInt){
+    compileError(EIndexTypeMismatch, $1->getName().c_str());
+  }
+  else $$ = new ArrayElemTree($1->getName(), $1->getLocation(), $1->getType(), $4, $1->getArraySize());
+  }
+| INUM { $$ = new INumNode($1); }   //INUM について
+| RNUM { $$ = new RNumNode($1); }  //RNUM について
+;
+>>>>>>> test
 
 // stmt と expr の右辺中の ID を置き換えたもの
 vname
@@ -265,16 +329,107 @@ static void allocateArray(VarEntry *var)
 static AssignTree *makeAssignTree(VarEntry *var,
                                   ExprTree *expr, ExprTree *index)
 {
+<<<<<<< HEAD
 
 }
 
 static ExprTree *makeBinExprTree(CConst op, ExprTree *lexp, ExprTree *rexp)
 {
+=======
+  int loc = var->getLocation();
+  string name = var->getName();
+  Type type = var->getType();
+
+  Variable *vtree;
+  if(index == NULL) {
+  // 単純変数の構文木を作る
+  vtree = new SmplVarNode(name, loc, type);
+
+  } else {
+  // 配列要素の構文木を作る
+  int size = var->getArraySize();
+  vtree = new ArrayElemTree(name, loc, type, index, size);
+  }
+
+ // 型変換を行う
+ Type ltype = var->getType();
+ Type rtype = expr->getType();
+
+
+ // 型変換の必要がある場合
+ if (ltype != rtype) {
+
+    // 右の構文木をTInt型に変換する
+    if (ltype == TInt && rtype == TReal) {
+        expr = new UniExprTree(Creal2int, expr, ltype);
+    }
+
+    // 右の構文木をTReal型に変換する
+    else if (ltype == TReal && rtype == TInt) {
+        expr = new UniExprTree(Cint2real, expr, ltype);
+    }
+ }
+
+
+ // 代入木の構文期を作成し，返却する
+ AssignTree *tree = new AssignTree(vtree, expr);
+ return tree;
+}
+
+
+
+
+static ExprTree *makeBinExprTree(CConst op, ExprTree *lexp, ExprTree *rexp)
+{
+ // 型変換を行う
+ Type ltype = lexp->getType();
+ Type rtype = rexp->getType();
+ // 型変換の必要がある場合
+ if (ltype != rtype) {
+    
+    // 左の構文木をTReal型に変換する
+    if (ltype == TInt && rtype == TReal) {
+        lexp = new UniExprTree(Cint2real, lexp, TReal);
+    }
+
+    // 右の構文木をTReal型に変換する
+    else if (ltype == TReal && rtype == TInt) {
+        rexp = new UniExprTree(Cint2real, rexp, TReal);
+    }
+  }
+
+ // 二項演算子をもつ式の構文木を生成し，返却する．
+ BinExprTree *btree = new BinExprTree(op, lexp, rexp);
+ return btree;
+>>>>>>> test
 
 }
 
 static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
 {
+<<<<<<< HEAD
+=======
+ // 型変換を行う
+ Type ltype = e1->getType();
+ Type rtype = e2->getType();
+ // 型変換の必要がある場合
+ if (ltype != rtype) {
+    
+    // 左の構文木をTReal型に変換する
+    if (ltype == TInt && rtype == TReal) {
+        e1 = new UniExprTree(Cint2real, e1, TReal);
+    }
+
+    // 右の構文木をTReal型に変換する
+    else if (ltype == TReal && rtype == TInt) {
+        e2 = new UniExprTree(Cint2real, e2, TReal);
+    }
+  }
+
+ // 関係演算子をもつ条件を構文木を作成し，返却する
+ RelationTree *rtree = new RelationTree(op, e1, e2);
+ return rtree;
+>>>>>>> test
 
 }
 

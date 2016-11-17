@@ -1,3 +1,5 @@
 testdir/*.result
 testdir/smplc
 testdir/y.*
+core
+*/core
