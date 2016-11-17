@@ -265,16 +265,96 @@ static void allocateArray(VarEntry *var)
 static AssignTree *makeAssignTree(VarEntry *var,
                                   ExprTree *expr, ExprTree *index)
 {
+  int loc = var->getLocation();
+  string name = var->getName();
+  Type type = var->getType();
 
+  Variable *vtree;
+  if(index == NULL) {
+  // 単純変数の構文木を作る
+  vtree = new SmplVarNode(name, loc, type);
+
+  } else {
+  // 配列要素の構文木を作る
+  int size = var->getArraySize();
+  vtree = new ArrayElemTree(name, loc, type, index, size);
+  }
+
+ // 型変換を行う
+ Type ltype = var->getType();
+ Type rtype = expr->getType();
+
+
+ // 型変換の必要がある場合
+ if (ltype != rtype) {
+
+    // 右の構文木をTInt型に変換する
+    if (ltype == TInt && rtype == TReal) {
+        expr = new UniExprTree(Creal2int, expr);
+    }
+
+    // 右の構文木をTReal型に変換する
+    else if (ltype == TReal && rtype == TInt) {
+        expr = new UniExprTree(Cint2real, expr);
+    }
+ }
+
+
+ // 代入木の構文期を作成し，返却する
+ AssignTree *tree = new AssignTree(vtree, expr);
+ return tree;
 }
+
+
+
 
 static ExprTree *makeBinExprTree(CConst op, ExprTree *lexp, ExprTree *rexp)
 {
+ // 型変換を行う
+ Type ltype = lexp->getType();
+ Type rtype = rexp->getType();
+ // 型変換の必要がある場合
+ if (ltype != rtype) {
+    
+    // 左の構文木をTReal型に変換する
+    if (ltype == TInt && rtype == TReal) {
+        lexp = new UniExprTree(Cint2real, lexp);
+    }
+
+    // 右の構文木をTReal型に変換する
+    else if (ltype == TReal && rtype == TInt) {
+        rexp = new UniExprTree(Cint2real, rexp);
+    }
+  }
+
+ // 二項演算子をもつ式の構文木を生成し，返却する．
+ BinExprTree *btree = new BinExprTree(op, lexp, rexp);
+ return btree;
 
 }
 
 static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
 {
+ // 型変換を行う
+ Type ltype = e1->getType();
+ Type rtype = e2->getType();
+ // 型変換の必要がある場合
+ if (ltype != rtype) {
+    
+    // 左の構文木をTReal型に変換する
+    if (ltype == TInt && rtype == TReal) {
+        e1 = new UniExprTree(Cint2real, e1);
+    }
+
+    // 右の構文木をTReal型に変換する
+    else if (ltype == TReal && rtype == TInt) {
+        e2 = new UniExprTree(Cint2real, e2);
+    }
+  }
+
+ // 関係演算子をもつ条件を構文木を作成し，返却する
+ RelationTree *rtree = new RelationTree(op, e1, e2);
+ return rtree;
 
 }
 
