@@ -148,15 +148,17 @@ stmtList
 stmt
   : vname '='
       {
+      //vnameが配列である場合は単純変数ではないのでコンパイルエラーを出す
       if( $1->isArray() == true ) {
       string name = $1->getName();
         compileError(EDeclaredAsArray, name.c_str(), name.c_str());
       }
       }
     expr ';'
-      { $$ = makeAssignTree($1, $4, NULL); }
+      { $$ = makeAssignTree($1, $4, NULL); /* 代入文の構文木を生成し合成属性に代入する */}
   | vname '['
       {
+      //vnameが単純変数である場合は配列ではないのでコンパイルエラーを出す
       if( $1->isArray() == false) {
         string name = $1->getName();
         compileError(EDeclaredAsSimpleVar, name.c_str(), name.c_str());
@@ -164,16 +166,18 @@ stmt
       }
     expr ']'
       {
+      //配列の添字exprはInt型である必要があるので、違う場合にはコンパイルエラーを出す
       if( $4->getType() != TInt ){
         compileError(EIndexTypeMismatch, $1->getName().c_str(), $1->getName().c_str());
       }
       }
     '=' expr ';'
-      { $$ = makeAssignTree($1, $8, $4); }
+      { $$ = makeAssignTree($1, $8, $4); /* 代入文の構文木を生成し合成属性に代入する*/ }
   | ifPart elsePart { $$ = new IfTree($1,$2); }
   | WHILE '(' cond ')' '{' stmtList '}' { $$ = new WhileTree($3,$6); }
   | REPEAT '(' expr ')'
       {
+      //repeat構文はIntで回数を指定するので、型が違う場合にはコンパイルエラーを出す
       if( $3->getType() != TInt ){
         compileError(ERepeatTypeMismatch);
       }
