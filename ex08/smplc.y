@@ -213,7 +213,7 @@ expr
 | vname // ID について
 { if($1->isArray() == true){//意味規則を満たさないとき
     compileError(EDeclaredAsArray, $1->getName().c_str());
-  } else $$ = new SmplVarNode($1->getName(),$1->getLocation(),$1->getType());
+  } else $$ = new SmplVarNode($1->getName(),$1->getLocation(),$1->getType()); //単純変数の構文木を生成する
 }
 | vname '[' // ID '[' について
 { if($1->isArray() != true){//意味規則を満たさないとき
@@ -224,10 +224,10 @@ expr ']' // 式 ']' について
 { if($4->getType() != TInt){
     compileError(EIndexTypeMismatch, $1->getName().c_str());
   }
-  else $$ = new ArrayElemTree($1->getName(), $1->getLocation(), $1->getType(), $4, $1->getArraySize());
+  else $$ = new ArrayElemTree($1->getName(), $1->getLocation(), $1->getType(), $4, $1->getArraySize()); //配列要素の構文木を生成する
   }
-| INUM { $$ = new INumNode($1); }   //INUM について
-| RNUM { $$ = new RNumNode($1); }  //RNUM について
+| INUM { $$ = new INumNode($1); }   //INUM について 整数の構文木を生成する
+| RNUM { $$ = new RNumNode($1); }  //RNUM について 実数の構文木を生成する
 ;
 
 // stmt と expr の右辺中の ID を置き換えたもの
