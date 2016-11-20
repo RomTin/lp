@@ -130,8 +130,8 @@ rconst
 
 // 型 → INT | REAL
 type
-  : INT  { $$ = TInt; }
-  | REAL { $$ = TReal; }
+  : INT  { $$ = TInt; }  // INTに対応したTInt型を返す
+  | REAL { $$ = TReal; } // REALに対応したTReal型を返す
   ;
 
 // 文リスト → ε | 文リスト 文
@@ -232,7 +232,7 @@ expr ']' // 式 ']' について
 
 // stmt と expr の右辺中の ID を置き換えたもの
 vname
-  : ID { $$ = findVariable(*$1); }
+  : ID { $$ = findVariable(*$1); } // 記号表から探してポインタを返す
   ;
 
 // 条件 → 条件 LOGOP 条件 | ULOGOP 条件 | 式 RELOP 式 | '(' 条件 ')'
