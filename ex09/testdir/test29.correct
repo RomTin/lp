@@ -1,0 +1,14 @@
+aCommandの中間コード
+構文木: Swhile
+構文木: Sreturn
+構文木: SlocalVar
+構文木: Swhile
+構文木: Sif
+
+*** 大域的な記号表の内容 ***
+手続き: aCommand
+  型 = void
+  引数個数 = 0
+  コードのサイズ = 5
+  定義済フラグ = 0
+  システム手続きへのポインタ = 0
