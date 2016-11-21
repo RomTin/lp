@@ -149,7 +149,7 @@ ProcEntry *defineProcedure(string name, Type type)
   }
 
   // 仮引数の数を取得
-  size_t param_size = sizeof(declaredProc->getParamList());
+  size_t param_size = declaredProc->getParamNumber();
 
   // 局所変数の番地の開始地点は1で固定
   localVarLocation = 1;
