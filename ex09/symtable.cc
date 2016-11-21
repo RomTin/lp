@@ -75,7 +75,6 @@ VarEntry *addGlobalVariable(string name, Type type)
   //この関数内では前者に対してのみ行う形を取る。
   //実際に変数エントリを作成、登録するのはaddVariable()なので
   //VarClassだけ大域変数のものを指定して渡すようにした。
-
   return addVariable(name,GlobalVar,type,false,0,&globalSymTable);
 }
 
@@ -98,6 +97,7 @@ VarEntry *addLocalVariable(string name, Type type)
   //VarClassだけ局所変数のものを指定して渡すようにした。
 
   VarEntry *var = addVariable(name,LocalVar,type,false,0,&localSymTable);
+  var->setLocation(localVarLocation++);
   return var;
 }
 
@@ -108,6 +108,7 @@ VarEntry *addParameter(string name, Type type)
 {
   // 局地的な記号表に，渡されたパラメタを配列じゃないことを明示して追加する
   VarEntry *var = addVariable(name, Param, type, false, 0, &localSymTable);
+  var->setLocation(paramLocation++);
   return var;
 }
 
