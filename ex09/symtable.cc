@@ -10,6 +10,7 @@ using namespace std;
   s1220244 向佐裕貴
 *******************************************************************/
 
+#include <vector>
 #include <string>
 #include <map>
 #include "symtable.h"
@@ -196,7 +197,20 @@ void checkParamList(ParamList *params, ProcEntry *proc)
     compileError(EParamNumMismatch, proc->getName().c_str(), params->size(), proc->getParamNumber());
   }
 
-  // 型が一致しているかどうか
+  ParamList *procParams = proc->getParamList();
 
+  ParamList::iterator it = procParams->begin();
+  ParamList::iterator it2 = params->begin();
+
+  // 型が一致しているかどうか
+  for (int i = 1; i <= params->size(); i++) {
+    ParamType ptype1 = *it++;
+    ParamType ptype2 = *it2++;
+    Type type1 = ptype1.first;
+    Type type2 = ptype2.first;
+    if (type1 != type2) {
+    compileError(EParamTypeMismatch, proc->getName().c_str(), i);
+    }
+  }
 
 }
