@@ -139,17 +139,22 @@ static VarEntry *addVariable(string name, VarClass vc, Type type,
 ProcEntry *addProcedure(string name, Type type, ParamList *params)
 {
   //名前nameを持つ識別子が大域的な記号表にあるかチェック
-  if(findVariable(name) != NULL){
+  SymbolEntry *sym = find(name, &globalSymTable);
+  //記号表からエントリが見つかったのでエラーの制御に移る
+  if(sym != NULL){
+    //登録済みエントリが変数エントリかチェック
+    if(sym->isVariable()){
+      compileError(EAlreadyAsVar, name.c_str());
+    }
     //登録済みのエントリが手続きエントリかチェック
-    if(findProcedure(name) != NULL){
+    else if(sym->isProcedure()){
       compileError(EProcDuplicated, name.c_str());
     }
-    else compileError(EAlreadyAsVar, name.c_str());
   }
   //手続きエントリを生成し大域的な記号表に登録する
   ProcEntry *proc = new ProcEntry(type, name, params);
   globalSymTable.insert(make_pair(name,proc));
-  
+
   return proc;
 }
 
@@ -160,9 +165,9 @@ ProcEntry *defineProcedure(string name, Type type)
   // 既に定義済みであればエラー
   if (declaredProc->isDefined()) {
     compileError(EProcDuplicated, name.c_str());
-    
+
   } else if (declaredProc->getType() != type) {
-  // 取得した手続きの戻り値の型が定義の戻り値の型と一致しなければエラー
+    // 取得した手続きの戻り値の型が定義の戻り値の型と一致しなければエラー
     compileError(EProcTypeMismatch, name.c_str());
   }
 
@@ -250,22 +255,22 @@ void checkParamList(ParamList *params, ProcEntry *proc)
     compileError(EParamNumMismatch, proc->getName().c_str(), params->size(), proc->getParamNumber());
   } else {
 
-  // 手続きエントリが持つ仮引数リストを取得
-  ParamList *procParams = proc->getParamList();
+    // 手続きエントリが持つ仮引数リストを取得
+    ParamList *procParams = proc->getParamList();
 
-  // それぞれのリストの開始イテレータを取得
-  ParamList::iterator it = procParams->begin();
-  ParamList::iterator it2 = params->begin();
+    // それぞれのリストの開始イテレータを取得
+    ParamList::iterator it = procParams->begin();
+    ParamList::iterator it2 = params->begin();
 
-  // 型が一致しているかどうか [1,引数の個数]だけチェックを回す
-  for (int i = 1; i <= params->size(); i++) {
-    ParamType ptype1 = *it++;
-    ParamType ptype2 = *it2++;
-    // 型が一致していなければエラー
-    if (ptype1 != ptype2) {
-    compileError(EParamTypeMismatch, proc->getName().c_str(), i);
+    // 型が一致しているかどうか [1,引数の個数]だけチェックを回す
+    for (int i = 1; i <= params->size(); i++) {
+      ParamType ptype1 = *it++;
+      ParamType ptype2 = *it2++;
+      // 型が一致していなければエラー
+      if (ptype1 != ptype2) {
+        compileError(EParamTypeMismatch, proc->getName().c_str(), i);
+      }
     }
-  }
   }
 
 }
