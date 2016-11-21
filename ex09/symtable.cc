@@ -8,7 +8,7 @@ using namespace std;
   s1220228 海老原圭吾
   s1220233 小松凌也
   s1220244 向佐裕貴
-*******************************************************************/
+ *******************************************************************/
 
 #include <string>
 #include <map>
@@ -17,7 +17,7 @@ using namespace std;
 
 // static 関数のプロトタイプ宣言
 static VarEntry *addVariable(string name, VarClass vc, Type type, 
-                             bool array, int size, SymbolTable *table);
+    bool array, int size, SymbolTable *table);
 static SymbolEntry *find(string name, SymbolTable *table);
 
 
@@ -74,7 +74,7 @@ VarEntry *addGlobalVariable(string name, Type type)
   //この関数内では前者に対してのみ行う形を取る。
   //実際に変数エントリを作成、登録するのはaddVariable()なので
   //VarClassだけ大域変数のものを指定して渡すようにした。
-  
+
   return addVariable(name,GlobalVar,type,false,0,&globalSymTable);
 }
 
@@ -95,7 +95,7 @@ VarEntry *addLocalVariable(string name, Type type)
   //この関数内では前者に対してのみ行う形を取る。
   //実際に変数エントリを作成、登録するのはaddVariable()なので
   //VarClassだけ局所変数のものを指定して渡すようにした。
-  
+
   VarEntry *var = addVariable(name,LocalVar,type,false,0,&localSymTable);
   return var;
 }
@@ -115,7 +115,7 @@ VarEntry *addParameter(string name, Type type)
 // tableが指す記号表にその変数エントリを登録する
 // 登録した変数エントリへのポインタを返す
 static VarEntry *addVariable(string name, VarClass vc, Type type, 
-                             bool array, int size, SymbolTable *table)
+    bool array, int size, SymbolTable *table)
 {
   // この関数の本体を変更すること
 
@@ -168,8 +168,26 @@ VarEntry *findVariable(string name)
     return (VarEntry *)var;
 }
 
+// 識別子名nameの手続きエントリを大域的な記号表から探す
+// 見つかったら手続きエントリへのポインタを返却し、
+// 見つからなければエラー
 ProcEntry *findProcedure(string name)
 {
+  // 大域的な記号表から識別子nameを持つ記号表エントリを探す
+  SymbolEntry *var = find(name,&globalSymTable);
+
+  // 見つからなければエラー
+  if(var == NULL){
+    compileError(EProcNotDeclared,name.c_str());
+  }
+  else if(var->isVariable()){
+    // 変数として宣言されていればコンパイルエラー
+    compileError(EDeclaredAsVar,name.c_str());
+  }else{
+    // 手続きの記号表エントリのポインタを返却する
+    return (ProcEntry *)var;
+  }
+}
 
 }
 
