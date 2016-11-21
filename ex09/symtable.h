@@ -27,9 +27,9 @@ enum VarClass { GlobalVar, LocalVar, Param };
 
 // 記号表エントリ 
 class SymbolEntry  {
-  SymClass _class;      // 記号表エントリの種別
-  string _name;         // 識別子名（エラー出力用）
-  Type _type;           // 型
+  SymClass _class;	// 記号表エントリの種別
+  string _name;		// 識別子名（エラー出力用）
+  Type _type;		// 型
  public:
   // コンストラクタ
   SymbolEntry(SymClass c, string name, Type type)
@@ -62,7 +62,7 @@ class VarEntry : public SymbolEntry {
   VarEntry(VarClass vc, string name, Type type, bool array, int size)
   // これ以降のコンストラクタの定義を書き換えること
     : SymbolEntry(SymVar,name, type) {
-    _vclass = vc;       // メンバ変数 _vclassの初期化
+    _vclass = vc;	// メンバ変数 _vclassの初期化
     _array = array; // メンバ変数 _arrayの初期化
     _size = size; // メンバ変数 _sizeの初期化
   }
