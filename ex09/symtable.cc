@@ -250,10 +250,11 @@ static SymbolEntry *find(string name, SymbolTable *table)
 // 一致しなければエラー。一致すれば、何もせずにリターン。
 void checkParamList(ParamList *params, ProcEntry *proc)
 {
+  int paramSize = (params == NULL) ? 0 : params->size();
   // 引数の個数が一致しているかどうか
-  if ( params->size() != proc->getParamNumber() ) {
+  if ( paramSize != proc->getParamNumber() ) {
     // 一致していなければエラー
-    compileError(EParamNumMismatch, proc->getName().c_str(), params->size(), proc->getParamNumber());
+    compileError(EParamNumMismatch, proc->getName().c_str(), paramSize, proc->getParamNumber());
   } else {
 
     // 手続きエントリが持つ仮引数リストを取得
@@ -264,7 +265,7 @@ void checkParamList(ParamList *params, ProcEntry *proc)
     ParamList::iterator it2 = params->begin();
 
     // 型が一致しているかどうか [1,引数の個数]だけチェックを回す
-    for (int i = 1; i <= params->size(); i++) {
+    for (int i = 1; i <= paramSize; i++) {
       ParamType ptype1 = *it++;
       ParamType ptype2 = *it2++;
       // 型が一致していなければエラー
