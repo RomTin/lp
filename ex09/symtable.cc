@@ -165,7 +165,7 @@ ProcEntry *defineProcedure(string name, Type type)
 
   // 既に定義済みであればエラー
   if (declaredProc->isDefined()) {
-    compileError(EProcDuplicated, name.c_str());
+    compileError(EProcDefDuplicated, name.c_str());
 
   } else if (declaredProc->getType() != type) {
     // 取得した手続きの戻り値の型が定義の戻り値の型と一致しなければエラー
