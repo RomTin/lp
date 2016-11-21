@@ -155,7 +155,32 @@ ProcEntry *addProcedure(string name, Type type, ParamList *params)
 
 ProcEntry *defineProcedure(string name, Type type)
 {
+  ProcEntry *declaredProc = findProcedure(name);
 
+  // 既に定義済みであればエラー
+  if (declaredProc->isDefined()) {
+    compileError(EProcDuplicated, name.c_str());
+    
+  } else if (declaredProc->getType() != type) {
+  // 取得した手続きの戻り値の型が定義の戻り値の型と一致しなければエラー
+    compileError(EProcTypeMismatch, name.c_str());
+  }
+
+  // 仮引数の数を取得
+  size_t param_size = declaredProc->getParamNumber();
+
+  // 局所変数の番地の開始地点は1で固定
+  localVarLocation = 1;
+
+  // 仮引数の番地の開始地点は引数の数*-1
+  paramLocation = -param_size;
+
+  // 局所的な記号表を初期化。
+  localSymTable.clear();
+
+  // 手続きを定義済みにする。
+  declaredProc->define();
+  return declaredProc;
 }
 
 // 識別子名nameをもつ変数エントリを記号表から探し、
