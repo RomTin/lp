@@ -185,5 +185,13 @@ static SymbolEntry *find(string name, SymbolTable *table)
 // 一致しなければエラー。一致すれば、何もせずにリターン。
 void checkParamList(ParamList *params, ProcEntry *proc)
 {
+  // 引数の個数が一致しているかどうか
+  if ( params->size() != proc->getParamNumber() ) {
+    // 一致していなければエラー
+    compileError(EParamNumMismatch, proc->getName().c_str(), params->size(), proc->getParamNumber());
+  }
+
+  // 型が一致しているかどうか
+
 
 }
