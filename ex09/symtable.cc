@@ -10,6 +10,7 @@ using namespace std;
   s1220244 向佐裕貴
  *******************************************************************/
 
+#include <vector>
 #include <string>
 #include <map>
 #include "symtable.h"
@@ -220,5 +221,28 @@ static SymbolEntry *find(string name, SymbolTable *table)
 // 一致しなければエラー。一致すれば、何もせずにリターン。
 void checkParamList(ParamList *params, ProcEntry *proc)
 {
+  // 引数の個数が一致しているかどうか
+  if ( params->size() != proc->getParamNumber() ) {
+    // 一致していなければエラー
+    compileError(EParamNumMismatch, proc->getName().c_str(), params->size(), proc->getParamNumber());
+  } else {
+
+  // 手続きエントリが持つ仮引数リストを取得
+  ParamList *procParams = proc->getParamList();
+
+  // それぞれのリストの開始イテレータを取得
+  ParamList::iterator it = procParams->begin();
+  ParamList::iterator it2 = params->begin();
+
+  // 型が一致しているかどうか [1,引数の個数]だけチェックを回す
+  for (int i = 1; i <= params->size(); i++) {
+    ParamType ptype1 = *it++;
+    ParamType ptype2 = *it2++;
+    // 型が一致していなければエラー
+    if (ptype1 != ptype2) {
+    compileError(EParamTypeMismatch, proc->getName().c_str(), i);
+    }
+  }
+  }
 
 }
