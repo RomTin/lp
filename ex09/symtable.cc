@@ -202,8 +202,6 @@ ProcEntry *findProcedure(string name)
   }
 }
 
-}
-
 // 識別子名nameをもつ記号表エントリを、tableが指す記号表から探す
 // 見つかったらその記号表エントリへのポインタを、見つからなければ
 // NULLを返す
