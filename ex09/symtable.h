@@ -118,7 +118,7 @@ class ProcEntry : public SymbolEntry {
       _code = new Code; // 空のCode型のベクタを生成
     }
   // 引数個数へのアクセス
-  int getParamNumber() { return _params->size();}
+  int getParamNumber() { return _params == NULL ? 0 : _params->size(); }
   // 引数の型リストのポインタへのアクセス
   ParamList *getParamList() { return _params;}
   // 本体のコードのポインタへのアクセス
