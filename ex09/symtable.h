@@ -45,17 +45,18 @@ class SymbolEntry  {
   Type getType() { return _type; }
 };
 
+
 // 記号表の型名の定義
 typedef map<string, SymbolEntry *> SymbolTable;
 
 
 // 変数エントリ（記号表エントリのサブクラス）
 class VarEntry : public SymbolEntry {
-  VarClass _vclass;	// 変数の種別
-  int _location;	// 大域変数のとき: 変数の静的データ領域内の番地
+  VarClass _vclass;     // 変数の種別
+  int _location;        // 大域変数のとき: 変数の静的データ領域内の番地
   int _local_location; // それ以外のとき: 変数のフレーム内相対番地
-  bool _array;		// 配列なら true、単純変数なら false
-  int _size;		// 配列のサイズ
+  bool _array;          // 配列なら true、単純変数なら false
+  int _size;            // 配列のサイズ
  public:
   // コンストラクタ
   VarEntry(VarClass vc, string name, Type type, bool array, int size)
@@ -75,6 +76,7 @@ class VarEntry : public SymbolEntry {
   int getArraySize() { return _size; }
 };
 
+
 // 仮引数の型(型と引数名のペア)
 typedef pair<Type,string> ParamType;
 
@@ -90,11 +92,16 @@ class ProcEntry : public SymbolEntry {
  public:
   // コンストラクタ
   ProcEntry(Type type, string name, ParamList *params)
-    : SymbolEntry(SymProc,name,type) { }
+    : SymbolEntry(SymProc,name,type) {
+      _params = params;
+      _defined = false; // 初期値は未定義を示すfalse
+      _sysProc = NULL; // システム手続きのデフォルトはNULL
+      _code = new Code; // 空のCode型のベクタを生成
+    }
   // 引数個数へのアクセス
-  int getParamNumber() { }
+  int getParamNumber() { return _params->size();}
   // 引数の型リストのポインタへのアクセス
-  ParamList *getParamList() { }
+  ParamList *getParamList() { return _params;}
   // 本体のコードのポインタへのアクセス
   Code *getCode() { return _code; }
   // 定義済フラグへのアクセス

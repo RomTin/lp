@@ -65,6 +65,7 @@ Code *getMainCode()
   return proc->getCode();
 }
 
+
 // 大域変数のための変数エントリを生成し、大域的な記号表に登録する
 // 登録した変数エントリへのポインタを返す
 VarEntry *addGlobalVariable(string name, Type type)
@@ -77,12 +78,14 @@ VarEntry *addGlobalVariable(string name, Type type)
   return addVariable(name,GlobalVar,type,false,0,&globalSymTable);
 }
 
+
 // 配列のための変数エントリを生成し、大域的な記号表に登録する
 // 登録した変数エントリへのポインタを返す
 VarEntry *addArray(string name, Type type, int size)
 {// 配列であることを表すためにtrueとsizeを渡している
   return addVariable(name,GlobalVar,type,true,size,&globalSymTable);
 }
+
 
 // 局所変数のための変数エントリを生成し、局所的な記号表に登録する
 // 登録した変数エントリへのポインタを返す
@@ -96,6 +99,7 @@ VarEntry *addLocalVariable(string name, Type type)
   VarEntry *var = addVariable(name,LocalVar,type,false,0,&localSymTable);
   return var;
 }
+
 
 // 仮引数のための変数エントリを生成し、局所的な記号表に登録する
 // 登録した変数エントリへのポインタを返す
@@ -129,6 +133,7 @@ static VarEntry *addVariable(string name, VarClass vc, Type type,
   table->insert(make_pair(name, var));
   return var;
 }
+
 
 ProcEntry *addProcedure(string name, Type type, ParamList *params)
 {
