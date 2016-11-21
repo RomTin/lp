@@ -11,7 +11,7 @@ using namespace std;
   s1220228 海老原圭吾
   s1220233 小松凌也
   s1220244 向佐裕貴
-*******************************************************************/
+ *******************************************************************/
 
 #include <string>
 #include <map>
@@ -30,11 +30,11 @@ class SymbolEntry  {
   SymClass _class;	// 記号表エントリの種別
   string _name;		// 識別子名（エラー出力用）
   Type _type;		// 型
- public:
+  public:
   // コンストラクタ
   SymbolEntry(SymClass c, string name, Type type)
-  // これ以降のコンストラクタの定義を書き換えること
-  // _typeが追加されたのでそれについても初期化をする
+    // これ以降のコンストラクタの定義を書き換えること
+    // _typeが追加されたのでそれについても初期化をする
     : _class(c), _name(name), _type(type) { }
   // 記号表エントリの種別を調べるための述語
   bool isVariable() { return _class == SymVar; }
@@ -57,15 +57,15 @@ class VarEntry : public SymbolEntry {
   int _local_location; // それ以外のとき: 変数のフレーム内相対番地
   bool _array;          // 配列なら true、単純変数なら false
   int _size;            // 配列のサイズ
- public:
+  public:
   // コンストラクタ
   VarEntry(VarClass vc, string name, Type type, bool array, int size)
-  // これ以降のコンストラクタの定義を書き換えること
+    // これ以降のコンストラクタの定義を書き換えること
     : SymbolEntry(SymVar,name, type) {
-    _vclass = vc;	// メンバ変数 _vclassの初期化
-    _array = array; // メンバ変数 _arrayの初期化
-    _size = size; // メンバ変数 _sizeの初期化
-  }
+      _vclass = vc;	// メンバ変数 _vclassの初期化
+      _array = array; // メンバ変数 _arrayの初期化
+      _size = size; // メンバ変数 _sizeの初期化
+    }
   // 変数の種別を調べるための述語
   bool isGlobalVariable() { return _vclass == GlobalVar; }
   bool isLocalVariable() { return _vclass == LocalVar; }
@@ -74,6 +74,25 @@ class VarEntry : public SymbolEntry {
   bool isArray() { return _array; }
   // 配列のサイズを得るためのメンバ関数
   int getArraySize() { return _size; }
+  // 変数の番地を格納する
+  void setLocation(int loc){
+    if(isGlobalVariable()){
+      // 大域変数の場合は_locationに格納
+      _location = loc;
+    }else if(isLocalVariable()){
+      // 局所変数、仮引数の場合は_local_locationに格納
+      _local_location = loc;
+    }
+  }
+  // 変数の番地を返却する
+  int getLocation(){
+    if(isGlobalVariable()){
+      return _location;
+    }else if(isLocalVariable()){
+      return _local_location;
+    }
+  }
+
 };
 
 
@@ -89,7 +108,7 @@ class ProcEntry : public SymbolEntry {
   Code *_code;		// 手続き本体の中間コードへのポインタ
   SystemProc _sysProc;	// システム手続きでなければNULL
   bool _defined;	// 定義済フラグ(定義済ならtrue、未定義ならfalse)
- public:
+  public:
   // コンストラクタ
   ProcEntry(Type type, string name, ParamList *params)
     : SymbolEntry(SymProc,name,type) {

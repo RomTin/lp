@@ -6,6 +6,8 @@
   * defineProcedure
 * s1220233 小松凌也
   * findProcedure
+  * VarEntry.setLocation
+  * VarEntry.getLocation
 * s1220244 向佐裕貴
   * checkParamList
 * others
