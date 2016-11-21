@@ -75,7 +75,6 @@ VarEntry *addGlobalVariable(string name, Type type)
   //この関数内では前者に対してのみ行う形を取る。
   //実際に変数エントリを作成、登録するのはaddVariable()なので
   //VarClassだけ大域変数のものを指定して渡すようにした。
-
   return addVariable(name,GlobalVar,type,false,0,&globalSymTable);
 }
 
@@ -98,6 +97,7 @@ VarEntry *addLocalVariable(string name, Type type)
   //VarClassだけ局所変数のものを指定して渡すようにした。
 
   VarEntry *var = addVariable(name,LocalVar,type,false,0,&localSymTable);
+  var->setLocation(localVarLocation++);
   return var;
 }
 
@@ -108,6 +108,7 @@ VarEntry *addParameter(string name, Type type)
 {
   // 局地的な記号表に，渡されたパラメタを配列じゃないことを明示して追加する
   VarEntry *var = addVariable(name, Param, type, false, 0, &localSymTable);
+  var->setLocation(paramLocation++);
   return var;
 }
 
@@ -249,10 +250,11 @@ static SymbolEntry *find(string name, SymbolTable *table)
 // 一致しなければエラー。一致すれば、何もせずにリターン。
 void checkParamList(ParamList *params, ProcEntry *proc)
 {
+  int paramSize = (params == NULL) ? 0 : params->size();
   // 引数の個数が一致しているかどうか
-  if ( params->size() != proc->getParamNumber() ) {
+  if ( paramSize != proc->getParamNumber() ) {
     // 一致していなければエラー
-    compileError(EParamNumMismatch, proc->getName().c_str(), params->size(), proc->getParamNumber());
+    compileError(EParamNumMismatch, proc->getName().c_str(), paramSize, proc->getParamNumber());
   } else {
 
     // 手続きエントリが持つ仮引数リストを取得
@@ -263,7 +265,7 @@ void checkParamList(ParamList *params, ProcEntry *proc)
     ParamList::iterator it2 = params->begin();
 
     // 型が一致しているかどうか [1,引数の個数]だけチェックを回す
-    for (int i = 1; i <= params->size(); i++) {
+    for (int i = 1; i <= paramSize; i++) {
       ParamType ptype1 = *it++;
       ParamType ptype2 = *it2++;
       // 型が一致していなければエラー
