@@ -137,7 +137,19 @@ static VarEntry *addVariable(string name, VarClass vc, Type type,
 
 ProcEntry *addProcedure(string name, Type type, ParamList *params)
 {
-
+  //名前nameを持つ識別子が大域的な記号表にあるかチェック
+  if(findVariable(name) != NULL){
+    //登録済みのエントリが手続きエントリかチェック
+    if(findProcedure(name) != NULL){
+      compileError(EProcDuplicated, name.c_str());
+    }
+    else compileError(EAlreadyAsVar, name.c_str());
+  }
+  //手続きエントリを生成し大域的な記号表に登録する
+  ProcEntry *proc = new ProcEntry(type, name, params);
+  globalSymTable.insert(make_pair(name,proc));
+  
+  return proc;
 }
 
 ProcEntry *defineProcedure(string name, Type type)
