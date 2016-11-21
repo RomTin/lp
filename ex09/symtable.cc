@@ -197,18 +197,19 @@ void checkParamList(ParamList *params, ProcEntry *proc)
     compileError(EParamNumMismatch, proc->getName().c_str(), params->size(), proc->getParamNumber());
   }
 
+  // 手続きエントリが持つ仮引数リストを取得
   ParamList *procParams = proc->getParamList();
 
+  // それぞれのリストの開始イテレータを取得
   ParamList::iterator it = procParams->begin();
   ParamList::iterator it2 = params->begin();
 
-  // 型が一致しているかどうか
+  // 型が一致しているかどうか [1,引数の個数]だけチェックを回す
   for (int i = 1; i <= params->size(); i++) {
     ParamType ptype1 = *it++;
     ParamType ptype2 = *it2++;
-    Type type1 = ptype1.first;
-    Type type2 = ptype2.first;
-    if (type1 != type2) {
+    // 型が一致していなければエラー
+    if (ptype1 != ptype2) {
     compileError(EParamTypeMismatch, proc->getName().c_str(), i);
     }
   }
