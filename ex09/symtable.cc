@@ -195,7 +195,7 @@ void checkParamList(ParamList *params, ProcEntry *proc)
   if ( params->size() != proc->getParamNumber() ) {
     // 一致していなければエラー
     compileError(EParamNumMismatch, proc->getName().c_str(), params->size(), proc->getParamNumber());
-  }
+  } else {
 
   // 手続きエントリが持つ仮引数リストを取得
   ParamList *procParams = proc->getParamList();
@@ -212,6 +212,7 @@ void checkParamList(ParamList *params, ProcEntry *proc)
     if (ptype1 != ptype2) {
     compileError(EParamTypeMismatch, proc->getName().c_str(), i);
     }
+  }
   }
 
 }
