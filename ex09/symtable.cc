@@ -98,6 +98,7 @@ VarEntry *addLocalVariable(string name, Type type)
   //VarClassだけ局所変数のものを指定して渡すようにした。
 
   VarEntry *var = addVariable(name,LocalVar,type,false,0,&localSymTable);
+  var->setLocation(localVarLocation++);
   return var;
 }
 
@@ -108,6 +109,7 @@ VarEntry *addParameter(string name, Type type)
 {
   // 局地的な記号表に，渡されたパラメタを配列じゃないことを明示して追加する
   VarEntry *var = addVariable(name, Param, type, false, 0, &localSymTable);
+  var->setLocation(paramLocation++);
   return var;
 }
 
@@ -178,7 +180,7 @@ ProcEntry *defineProcedure(string name, Type type)
   localVarLocation = 1;
 
   // 仮引数の番地の開始地点は引数の数*-1
-  paramLocation = -param_size;
+  paramLocation = param_size * -1;
 
   // 局所的な記号表を初期化。
   localSymTable.clear();

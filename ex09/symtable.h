@@ -79,7 +79,7 @@ class VarEntry : public SymbolEntry {
     if(isGlobalVariable()){
       // 大域変数の場合は_locationに格納
       _location = loc;
-    }else if(isLocalVariable()){
+    }else if(isLocalVariable() || isParameter()){
       // 局所変数、仮引数の場合は_local_locationに格納
       _local_location = loc;
     }
@@ -88,7 +88,7 @@ class VarEntry : public SymbolEntry {
   int getLocation(){
     if(isGlobalVariable()){
       return _location;
-    }else if(isLocalVariable()){
+    }else if(isLocalVariable() || isParameter()){
       return _local_location;
     }
   }
