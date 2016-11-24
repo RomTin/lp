@@ -112,13 +112,13 @@ class ProcEntry : public SymbolEntry {
   // コンストラクタ
   ProcEntry(Type type, string name, ParamList *params)
     : SymbolEntry(SymProc,name,type) {
-      _params = params;
+      _params = params == NULL ? new ParamList() : params;
       _defined = false; // 初期値は未定義を示すfalse
       _sysProc = NULL; // システム手続きのデフォルトはNULL
       _code = new Code; // 空のCode型のベクタを生成
     }
   // 引数個数へのアクセス
-  int getParamNumber() { return _params == NULL ? 0 : _params->size(); }
+  int getParamNumber() { return _params->size(); }
   // 引数の型リストのポインタへのアクセス
   ParamList *getParamList() { return _params;}
   // 本体のコードのポインタへのアクセス

@@ -249,6 +249,9 @@ static SymbolEntry *find(string name, SymbolTable *table)
 // 一致しなければエラー。一致すれば、何もせずにリターン。
 void checkParamList(ParamList *params, ProcEntry *proc)
 {
+  if (params == NULL) {
+    params = new ParamList();
+  }
   // 引数の個数が一致しているかどうか
   if ( params->size() != proc->getParamNumber() ) {
     // 一致していなければエラー
@@ -267,7 +270,7 @@ void checkParamList(ParamList *params, ProcEntry *proc)
       ParamType ptype1 = *it++;
       ParamType ptype2 = *it2++;
       // 型が一致していなければエラー
-      if (ptype1 != ptype2) {
+      if (ptype1.first != ptype2.first) {
         compileError(EParamTypeMismatch, proc->getName().c_str(), i);
       }
     }
