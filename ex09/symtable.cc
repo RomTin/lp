@@ -98,6 +98,7 @@ VarEntry *addLocalVariable(string name, Type type)
   //VarClassだけ局所変数のものを指定して渡すようにした。
 
   VarEntry *var = addVariable(name,LocalVar,type,false,0,&localSymTable);
+  //フレーム上の位置をインクリメントしながら変数エントリにセットする
   var->setLocation(localVarLocation++);
   return var;
 }
@@ -109,6 +110,7 @@ VarEntry *addParameter(string name, Type type)
 {
   // 局地的な記号表に，渡されたパラメタを配列じゃないことを明示して追加する
   VarEntry *var = addVariable(name, Param, type, false, 0, &localSymTable);
+  //フレーム上の位置をインクリメントしながら変数エントリにセットする
   var->setLocation(paramLocation++);
   return var;
 }

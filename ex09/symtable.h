@@ -87,8 +87,10 @@ class VarEntry : public SymbolEntry {
   // 変数の番地を返却する
   int getLocation(){
     if(isGlobalVariable()){
+      // 大域変数の場合は_locationを返却
       return _location;
     }else if(isLocalVariable() || isParameter()){
+      // 局所変数、仮引数の場合は_local_locationを返却
       return _local_location;
     }
   }
