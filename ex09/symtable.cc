@@ -147,11 +147,11 @@ ProcEntry *addProcedure(string name, Type type, ParamList *params)
   //記号表からエントリが見つかったのでエラーの制御に移る
   if(sym != NULL){
     //登録済みエントリが変数エントリかチェック
-    if(sym->isVariable()){
+    if(sym->isVariable()){//変数エントリであれば既に変数として宣言されていると表示させるエラーメッセージ
       compileError(EAlreadyAsVar, name.c_str());
     }
     //登録済みのエントリが手続きエントリかチェック
-    else if(sym->isProcedure()){
+    else if(sym->isProcedure()){//手続きエントリであれば手続きの二重宣言と表示させるエラーメッセージ
       compileError(EProcDuplicated, name.c_str());
     }
   }
