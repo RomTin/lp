@@ -1,0 +1,5 @@
+testdir/y.*
+testdir/*.result
+core
+testdir/core
+testdir/tglc
