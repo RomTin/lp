@@ -1,0 +1,15 @@
+// 処理系のテスト３８
+// 異常ケース２７: 局所引数と同じ名前の仮引数がある
+
+void move(int x, int y);
+
+void move(int x, int y)
+{
+  int log = 3;
+  int y = 5;	// y は仮引数として既に宣言済みなのでエラー
+}
+
+void main()
+{
+  int log = 3;
+}

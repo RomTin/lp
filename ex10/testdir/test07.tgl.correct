@@ -1,0 +1,15 @@
+初期値:
+  変数log(0:1)の値は7
+call move(7(0:3))  (user proc)
+  変数op(4:1)の値は3
+  変数op(4:1)の値は10
+return 0 (reclaim 1 from frame)
+  変数log(0:1)の値は0
+call still(5(0:3),1(0:4))  (user proc)
+  変数x(5:1)の値は10.200000
+  変数home(5:-2)の値は16
+return 0.000000 (reclaim 2 from frame)
+  変数log2(0:2)の値は0.000000
+return  (reclaim 0 from frame)
+
+最終値:

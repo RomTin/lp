@@ -1,0 +1,15 @@
+// 処理系のテスト３６
+// 異常ケース２５: 同じ名前の仮引数が複数ある
+
+// 仮引数 x が２回宣言されているのでエラー
+void move(int x, int y, int x);
+
+void move(int x, int y, int x)
+{ 
+  int log = 3;
+}
+
+void main()
+{
+  int log = 3;
+}

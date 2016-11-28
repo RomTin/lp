@@ -1,0 +1,16 @@
+// 処理系のテスト１６
+// 異常ケース５: 手続き定義の引数個数が宣言時より少ない
+
+int move(int a, int b);
+
+// 引数個数が２個ではなく１個なのでエラー
+int move(int a)
+{ 
+  int log = a*2;
+}
+
+void main()
+{
+  int a = move(1);
+}
+

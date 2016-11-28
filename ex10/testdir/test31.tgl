@@ -1,0 +1,22 @@
+// 処理系のテスト３１
+// 異常ケース２０: 手続きの引数がコマンド
+
+void move(int x);
+int still(int x);
+
+void move(int x)
+{
+  int a = 3 + x;
+}
+
+int still(int x)
+{
+  return x + 2;  
+}
+
+void main()
+{
+  int log;
+  // コマンド move() を手続きの引数としているのでエラー
+  log = still(move(5));
+}

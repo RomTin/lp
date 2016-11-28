@@ -1,0 +1,27 @@
+// 処理系のテスト３: 局所変数の使用
+
+void move();
+real log = 1.5;
+void still();
+
+void still()
+{
+  real log = 2.5;	// 局所変数 log = 2.5
+  int move = 3;		// 局所変数なので手続名と同じでもOK
+  log = move+log;	// 局所変数 log = 5.5
+}
+
+void main()
+{
+  move();
+  still();
+  log = log / 5;	// 大域変数 log = 6.0
+}
+
+void move()
+{
+  int op;		// 局所変数 op = 不定
+  op = log + 2;		// 局所変数 op = 3
+  still();
+  log = op * 10;	// 大域変数 log = 30.0
+}

@@ -1,0 +1,16 @@
+// 処理系のテスト４５
+// 異常ケース３４: コマンド内のreturn文に返り値がある
+
+void still(int x);
+
+void still(int x)
+{
+  int log = x - 100;
+  return log;	// コマンド stil() の return に返り値があるのでエラー
+}
+
+void main()
+{
+  move(10);
+}
+

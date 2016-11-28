@@ -1,0 +1,21 @@
+// 処理系のテスト４２
+// 異常ケース３１: スコープの外での仮引数の使用１
+
+void move(int log);
+void still(int a);
+
+void still(int log)
+{
+  int op = -100;
+}
+
+void move(int a)
+{
+  log = a+1;	// log は still の仮引数なのでエラー
+}
+
+void main()
+{
+  still(2);
+  move(10);
+}
