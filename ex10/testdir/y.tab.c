@@ -2242,17 +2242,41 @@ static ReturnTree *makeDefaultReturnTree(Type type)
 
 static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
 {
+  Type vtype = val->getType();
+  Type ptype = proc->getType();
 
+  if(ptype == TVoid){//procから得られる手続きの型がvoid型ならエラー
+    compileError(EReturnValue, proc->getName().c_str());
+  }
+  else if(vtype != ptype){//型変換を行う必要があるとき
+    if(vtype == TInt && ptype == TReal){
+      //return文の返り値の型が整数かつreturn文を含む手続きの型が実数のとき
+      //単行演算子real2intを持つ実数型の構文木iexpを作る
+      ExprTree *iexp = new UniExprTree(Creal2int, val, vtype);
+      //iexpを構成要素とするreturn文の構文木を作る
+      ReturnTree *tree = new ReturnTree(iexp, proc->getParamNumber());
+      return tree;
+    }
+    else if(vtype == TReal && ptype == TInt){
+      //return文の返り値の型が実数かつreturn文を含む手続きの型が整数のとき
+      //単行演算子int2realを持つ整数型の構文木iexpを作る
+      ExprTree *iexp = new UniExprTree(Cint2real, val, vtype);
+      //iexpを構成要素とするreturn文の構文木を作る
+      ReturnTree *tree = new ReturnTree(iexp, proc->getParamNumber());
+      return tree;
+    }
+  }
+  else {//型変換を行う必要がないとき(varがNULLのときを含む)
+    makeDefaultReturnTree(vtype);
+  }
 }
 
 static void addParameters(ParamList *params)
 {//仮引数リストが空か調べる
   if(!params->empty()){
-    //VarEntry var = new VarEntry(Param,params,params->getType(),true,params->size());
-       
     //先頭から順に仮引数の型と仮引数名を取り出し記号表に登録
     for(vector<ParamType>::iterator it = params->begin(); it != params->end(); it++ ){
-      addParameter(it->second, it->first);//addParameter(string name, Type type)
+      addParameter(it->second, it->first);    //addParameter(string name, Type type)
     }
   }
 }
