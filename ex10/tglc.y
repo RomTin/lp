@@ -289,13 +289,19 @@ stmt
       }
       }
     '{' stmtList '}' { $$ = new RepeatTree($3,$7); }
-  | ID '(' { }
+  | ID '(' { $<proc>$ = findProcedure($1); }
     argList ')' ';'
-      { }
+      { $$ = makeCallTree($1, $4, $<proc>$); }
   | RETURN ';'
-      { }
+      { 
+        Type proc_type = proc->getType();
+        if (proc_type != TVoid) {
+          compileError(ENotReturnValue, proc->getName().c_str());
+        }
+        $$ = makeReturnTreeWithValue(NULL);
+      }
   | RETURN expr ';'
-      { }
+      { $$ = makeReturnTreeWithValue($2); }
   ;
 
 // if部 → IF '(' 条件 ')' '{' 文リスト '}' |
@@ -342,9 +348,14 @@ expr ']' // 式 ']' について
 | INUM { $$ = new INumNode($1); }   //INUM について 整数の構文木を生成する
 | RNUM { $$ = new RNumNode($1); }  //RNUM について 実数の構文木を生成する
   | ID '(' 
-      { }
+      { 
+        $<proc>$ = findProcedure($1);
+        if ($<proc>$->getType() == TVoid) {
+          compileError(EDeclaredAsComm, $<proc>$->getName().c_str());
+        }
+      }
     argList ')'
-      { }
+      { $$ = makeCallTree($1, $4, $<proc>$); }
   ;
 
 // stmt と expr の右辺中の 変数を表す ID を置き換えたもの
