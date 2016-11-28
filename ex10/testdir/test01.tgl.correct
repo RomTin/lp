@@ -1,0 +1,9 @@
+初期値:
+call penDown()  (system proc)
+call move()  (user proc)
+return  (reclaim 0 from frame)
+call still()  (user proc)
+return  (reclaim 0 from frame)
+return  (reclaim 0 from frame)
+
+最終値:

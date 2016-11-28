@@ -1,0 +1,22 @@
+// 処理系のテスト４７
+// 異常ケース３６: 同じ名前の手続きを宣言２
+
+void still(int x);
+void move(int x);
+int still(int x);	// still() は既に宣言済みなのでエラー
+
+void still(int x)
+{
+  int log = x - 100;
+}
+
+void move(int x)
+{
+  int log = x - 100;
+}
+
+void main()
+{
+  move(10);
+}
+

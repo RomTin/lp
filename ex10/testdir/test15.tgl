@@ -1,0 +1,16 @@
+// 処理系のテスト１５
+// 異常ケース４: 手続き定義の引数個数が宣言時より多い
+
+int move(int a, int b);
+
+// 引数個数が２個ではなく３個なのでエラー
+int move(int a, int b, int c)
+{ 
+  int log = a+b+c;
+}
+
+void main()
+{
+  int x = move(1,2,3);
+}
+

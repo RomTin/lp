@@ -1,0 +1,26 @@
+// 処理系のテスト７: return文のない関数定義
+
+int move(int a);
+real still(int a, int b);
+
+// 暗黙の return 文で 0.0 が返る
+real still(int home, int away)
+{
+  real x = 10.2;
+  home = x + home + away;	// home = 16
+}
+
+void main()
+{
+  int log = 7;
+  real log2;
+  log = move(log);		// log = 0
+  log2 = still(5,log+1);	// log2 = 0.0
+}
+
+// 暗黙の return 文で 0 が返る
+int move(int japan)
+{
+  int op = 3;
+  op = op + japan;	// op = 10
+}

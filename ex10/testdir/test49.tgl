@@ -1,0 +1,22 @@
+// 処理系のテスト４９
+// 異常ケース３８: 変数と同じ名前の手続きを宣言２
+
+int still;
+void move(int x);
+void still(int x);	// still() は変数として宣言済みなのでエラー
+
+void still(int x)
+{
+  int log = x - 100;
+}
+
+void move(int x)
+{
+  int log = x - 100;
+}
+
+void main()
+{
+  move(10);
+}
+

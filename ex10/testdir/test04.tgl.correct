@@ -1,0 +1,19 @@
+初期値:
+log = 12.250000 (real)
+  変数a(0:1)の値は5
+call move(5(0:2),12.250000(0:3))  (user proc)
+  変数op(4:1)の値は8
+  変数log(4:2)の値は5.000000
+  変数op(4:1)の値は18
+call still(10(4:3))  (user proc)
+  変数log(8:1)の値は2
+  変数log(8:1)の値は12
+return  (reclaim 1 from frame)
+  変数log(4:2)の値は0.650000
+  変数a(4:-2)の値は3
+return  (reclaim 2 from frame)
+  変数log(0)の値は2.450000
+return  (reclaim 0 from frame)
+
+最終値:
+log = 2.450000 (real)

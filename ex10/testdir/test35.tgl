@@ -1,0 +1,16 @@
+// 処理系のテスト３５
+// 異常ケース２４: 同じ名前の局所変数が複数ある
+
+void move(int x, int y);
+
+void move(int x, int y)
+{
+  real z=x+5;
+  int w = y*3;
+  int z = x + y;	// 局所変数 z が２回宣言されているのでエラー
+}
+
+void main()
+{
+  int log = 3;
+}

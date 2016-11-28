@@ -1,0 +1,24 @@
+// 処理系のテスト４１
+// 異常ケース３０: スコープの外での局所変数の使用２
+
+void move();
+void still();
+
+void still()
+{
+  int log = -100;
+}
+
+void move()
+{
+  int op = 1000;
+  op = op + 3;
+}
+
+void main()
+{
+  still();
+  move();
+  log = log + 1;	// log はstillの局所変数なのでエラー
+}
+

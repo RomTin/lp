@@ -1,0 +1,21 @@
+// 処理系のテスト６: 関数の宣言と定義、返り値のあるreturn文
+
+real move(real a, int b);
+int still(int a);
+
+void main()
+{
+  int log = 3;
+  real log2 = move(5.2,log);	// log2 = 15.6
+  log = still(log*20);		// log = 4
+}
+
+real move(real japan, int math)
+{
+  return japan * math;	// 15.6 が返る
+}
+
+int still(int a)
+{
+  return a % 7;	// 4 が返る
+}

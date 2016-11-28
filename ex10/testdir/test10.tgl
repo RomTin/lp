@@ -1,0 +1,28 @@
+// 処理系のテスト１０: 返り値の型変換
+
+int move(real x);
+real still(int x);
+
+int move(real home)
+{
+  return home * 1.3;	// １回目は 3、２回目は 6 が返る
+}
+
+real still(int away)
+{
+  return away;		// １回目は 3.0、２回目は 5.0 が返る
+}
+
+void main()
+{
+  int log;
+  real log2;
+
+  log = move(2.5);	// log = 3
+
+  log2 = still(log);	// log2 = 3.0
+
+  log = still(5);	// log = 5
+
+  log2 = move(5.2);	// log2 = 6.0
+}
