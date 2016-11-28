@@ -188,7 +188,19 @@ formalParamList2
 // 仮引数 → 型 ID
 formalParam
   : type ID
-      { }
+      { 
+        // 意味規則10: Void型の変数は禁止を検査する
+        if($1 == TVoid) { 
+        // コンパイルエラーを表示させる
+        compileError(EVoidVariable, $2->c_str()); 
+        }
+        // 検査に成功した場合
+        else {
+          // 仮引数を生成し合成属性に代入
+          $$ = new ParamType($1, *$2);
+
+        }
+      }
   ;
 
 // 局所宣言リスト → ε | 局所宣言リスト 局所宣言
