@@ -532,7 +532,24 @@ static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
 
 static ExprTree *makeCallTree(string name, ArgList *args, ProcEntry *callee)
 {
+  int argsParamNum = (args == NULL) ? 0 : (*args).size();
+  if(argsParamNum != callee->getParamNumber()){
+    compileError(EParamNumMismatch, name.c_str(), callee->getParamNumber(), argsParamNum);
+  }
 
+  ParamList paramList = *(callee->getParamList());
+
+  for(size_t i = 0; i < argsParamNum; i++){
+    if((*args)[i]->getType() == TInt || paramList[i].first == TReal){
+      ExprTree* iexp = new UniExprTree(Cint2real, (*args)[i], TReal);
+      (*args)[i] = iexp;
+    }else if((*args)[i]->getType() == TReal || paramList[i].first == TInt){
+      ExprTree* iexp = new UniExprTree(Creal2int, (*args)[i], TInt);
+      (*args)[i] = iexp;
+    }
+  }
+  ExprTree* retCallTree = new CallTree(name, callee->getType(), args, callee->getSystemProcedure(), callee->getCode());
+  return retCallTree;
 }
 
 static LocalVarTree *initLocalVar(string name, Type vtype, ExprTree *expr)
