@@ -526,19 +526,20 @@ static ExprTree *makeCallTree(string name, ArgList *args, ProcEntry *callee)
 
 static LocalVarTree *initLocalVar(string name, Type vtype, ExprTree *expr)
 {
+  ExprTree* iexp;
   if(vtype == TVoid){
     compileError(EVoidVariable, name.c_str());
   }
 
   if(vtype == TInt && expr->getType() == TReal){
-    ExprTree* iexp = new UniExprTree(Creal2int, expr, TInt);
+    iexp = new UniExprTree(Creal2int, expr, TInt);
   }else if(vtype == TReal && expr->getType() == TInt){
-    ExprTree* iexp = new UniExprTree(Cint2real, expr, TReal);
+    iexp = new UniExprTree(Cint2real, expr, TReal);
   }else{
-    ExprTree* iexp = expr;
+    iexp = expr;
     }
 
-  LocalVarTree* retLVarTree = new LocalVarTree(name, expr->getType(), expr);
+  LocalVarTree* retLVarTree = new LocalVarTree(name, iexp->getType(), iexp);
   return retLVarTree;
 }
 
