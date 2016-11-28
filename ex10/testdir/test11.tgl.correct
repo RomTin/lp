@@ -1,8 +1,0 @@
-初期値:
-  変数log(0:1)の値は7
-call move(14(0:2),7(0:3))  (user proc)
-return 2 (reclaim 2 from frame)
-  変数log(0:1)の値は12
-return  (reclaim 0 from frame)
-
-最終値:
