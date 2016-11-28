@@ -1,0 +1,15 @@
+// 処理系のテスト３３
+// 異常ケース２２: 仮引数がvoid型
+
+// 仮引数がvoid型なのでエラー
+void move(int x, void y);
+
+void move(int x, void y)
+{
+  int z=x+2;
+}
+
+void main()
+{
+  int log = 3;
+}

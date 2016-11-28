@@ -1,0 +1,16 @@
+初期値:
+call move(2.500000(0:3))  (user proc)
+return 3 (reclaim 1 from frame)
+  変数log(0:1)の値は3
+call still(3(0:3))  (user proc)
+return 3.000000 (reclaim 1 from frame)
+  変数log2(0:2)の値は3.000000
+call still(5(0:3))  (user proc)
+return 5.000000 (reclaim 1 from frame)
+  変数log(0:1)の値は5
+call move(5.200000(0:3))  (user proc)
+return 6 (reclaim 1 from frame)
+  変数log2(0:2)の値は6.000000
+return  (reclaim 0 from frame)
+
+最終値:

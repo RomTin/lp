@@ -1,0 +1,16 @@
+// 処理系のテスト１９
+// 異常ケース８: 最初の引数の型が宣言と定義で異なる
+
+real move(int x, real y, int z);
+
+void main()
+{
+  int log = 7;
+  log = log * 3;
+}
+
+// １つめの引数の型が宣言時と異なるのでエラー
+real move(real x, real y, int z)
+{ 
+  return  x + y + z;
+}

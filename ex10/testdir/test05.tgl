@@ -1,0 +1,19 @@
+// 処理系のテスト５: 返り値のないreturn文
+
+void move(int a, int b);
+int log = 1;
+
+void main()
+{
+  move(5,log);
+  move(-10,log);
+  log = log * 5;	// log = 50
+}
+
+void move(int a, int b)
+{
+  if (a + b > 1)  {	// １回目: a+b = 6 ２回目: a+b = -9
+    return;
+  }
+  log = b * 10;		// ２回目のみ: log = 10
+}

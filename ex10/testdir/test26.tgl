@@ -1,0 +1,18 @@
+// 処理系のテスト２６
+// 異常ケース１５: 手続き呼び出しの引数が宣言より多い
+
+int move(int x, int y);
+
+int move(int x, int y)
+{
+  return x + y;
+}
+
+void main()
+{
+  int log = 7;
+  // move() は２引数として宣言されているのに
+  // ３引数を与えて呼び出しているのでエラー
+  move(log,log,log);
+}
+

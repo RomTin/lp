@@ -1,0 +1,21 @@
+初期値:
+log = 1.500000 (real)
+call move()  (user proc)
+  変数op(1:1)の値は3
+call still()  (user proc)
+  変数log(3:1)の値は2.500000
+  変数move(3:2)の値は3
+  変数log(3:1)の値は5.500000
+return  (reclaim 0 from frame)
+  変数log(0)の値は30.000000
+return  (reclaim 0 from frame)
+call still()  (user proc)
+  変数log(1:1)の値は2.500000
+  変数move(1:2)の値は3
+  変数log(1:1)の値は5.500000
+return  (reclaim 0 from frame)
+  変数log(0)の値は6.000000
+return  (reclaim 0 from frame)
+
+最終値:
+log = 6.000000 (real)
