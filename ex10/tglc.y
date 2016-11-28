@@ -332,7 +332,7 @@ expr
 | vname // ID について
 { if($1->isArray() == true){//意味規則を満たさないとき
     compileError(EDeclaredAsArray, $1->getName().c_str());
-  } else $$ = new SmplVarNode($1->getName(),$1->getLocation(),$1->getType()); //単純変数の構文木を生成する
+  } else $$ = new SmplVarNode($1->getName(),$1->getLocation(),$1->getType(),$1->isGlobalVariable()); //単純変数の構文木を生成する
 }
 | vname '[' // ID '[' について
 { if($1->isArray() != true){//意味規則を満たさないとき
@@ -444,7 +444,7 @@ static AssignTree *makeAssignTree(VarEntry *var,
   Variable *vtree;
   if(index == NULL) {
   // 単純変数の構文木を作る
-  vtree = new SmplVarNode(name, loc, type);
+  vtree = new SmplVarNode(name, loc, type, var->isGlobalVariable());
 
   } else {
   // 配列要素の構文木を作る
