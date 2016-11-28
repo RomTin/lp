@@ -150,7 +150,7 @@ rconst
 type
   : INT  { $$ = TInt; }  // INTに対応したTInt型を返す
   | REAL { $$ = TReal; } // REALに対応したTReal型を返す
-  | VOID { }
+  | VOID { $$ = TVoid;}  // VOIDに対応したTVoid型を返す
   ;
 
 // 定義部 → 手続き定義 | 定義部 手続き定義
