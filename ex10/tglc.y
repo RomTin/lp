@@ -289,9 +289,9 @@ stmt
       }
       }
     '{' stmtList '}' { $$ = new RepeatTree($3,$7); }
-  | ID '(' { $<proc>$ = findProcedure($1); }
+  | ID '(' { $<proc>$ = findProcedure($1->c_str()); }
     argList ')' ';'
-      { $$ = makeCallTree($1, $4, $<proc>$); }
+      { $$ = makeCallTree($1->c_str(), $4, $<proc>$); }
   | RETURN ';'
       { 
         Type proc_type = proc->getType();
@@ -348,14 +348,14 @@ expr ']' // 式 ']' について
 | INUM { $$ = new INumNode($1); }   //INUM について 整数の構文木を生成する
 | RNUM { $$ = new RNumNode($1); }  //RNUM について 実数の構文木を生成する
   | ID '(' 
-      { 
-        $<proc>$ = findProcedure($1);
+      {
+        $<proc>$ = findProcedure($1->c_str());
         if ($<proc>$->getType() == TVoid) {
           compileError(EDeclaredAsComm, $<proc>$->getName().c_str());
         }
       }
     argList ')'
-      { $$ = makeCallTree($1, $4, $<proc>$); }
+      { $$ = makeCallTree($1->c_str(), $4, $<proc>$); }
   ;
 
 // stmt と expr の右辺中の 変数を表す ID を置き換えたもの
