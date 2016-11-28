@@ -200,7 +200,20 @@ localDeclList
 // 局所宣言 → 型 ID 局所変数初期化子 ';'
 localDecl
   : type ID
-      { }
+      { 
+        // 意味規則10: TVoidの変数は禁止
+        if($1 == TVoid) {
+          // コンパイルエラーを表示する
+          compileError(EVoidVariable, $2->c_str());
+        } 
+        // 検査に成功した場合
+        else {
+          // 局所変数を記号表に登録する
+          VarEntry *new_entry = addLocalVariable(*$2, $1);
+          // localvinitの相続属性に代入
+          var = new_entry;
+        }
+      }
     localvinit ';' { delete $2; }
   ;
 
