@@ -614,7 +614,7 @@ static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
     if(vtype == TInt && ptype == TReal){
       //return文の返り値の型が整数かつreturn文を含む手続きの型が実数のとき
       //単行演算子real2intを持つ実数型の構文木iexpを作る
-      ExprTree *iexp = new UniExprTree(Creal2int, val, vtype);
+      ExprTree *iexp = new UniExprTree(Cint2real, val, ptype);
       //iexpを構成要素とするreturn文の構文木を作る
       ReturnTree *tree = new ReturnTree(iexp, proc->getParamNumber());
       return tree;
@@ -622,7 +622,7 @@ static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
     else if(vtype == TReal && ptype == TInt){
       //return文の返り値の型が実数かつreturn文を含む手続きの型が整数のとき
       //単行演算子int2realを持つ整数型の構文木iexpを作る
-      ExprTree *iexp = new UniExprTree(Cint2real, val, vtype);
+      ExprTree *iexp = new UniExprTree(Creal2int, val, ptype);
       //iexpを構成要素とするreturn文の構文木を作る
       ReturnTree *tree = new ReturnTree(iexp, proc->getParamNumber());
       return tree;
