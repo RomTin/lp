@@ -303,7 +303,7 @@ stmt
     '{' stmtList '}' { $$ = new RepeatTree($3,$7); }
   | ID '(' { $<proc>$ = findProcedure($1->c_str()); }
     argList ')' ';'
-      { $$ = makeCallTree($1->c_str(), $4, $<proc>$); }
+      { $$ = makeCallTree($1->c_str(), $4, $<proc>3); }
   | RETURN ';'
       { 
         Type proc_type = proc->getType();
@@ -367,7 +367,7 @@ expr ']' // 式 ']' について
         }
       }
     argList ')'
-      { $$ = makeCallTree($1->c_str(), $4, $<proc>$); }
+      { $$ = makeCallTree($1->c_str(), $4, $<proc>3); }
   ;
 
 // stmt と expr の右辺中の 変数を表す ID を置き換えたもの
