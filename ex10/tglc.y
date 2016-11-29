@@ -303,7 +303,7 @@ stmt
     '{' stmtList '}' { $$ = new RepeatTree($3,$7); }
   | ID '(' { $<proc>$ = findProcedure($1->c_str()); }
     argList ')' ';'
-      { $$ = makeCallTree($1->c_str(), $4, $<proc>$); }
+      { $$ = makeCallTree($1->c_str(), $4, $<proc>3); }
   | RETURN ';'
       { 
         Type proc_type = proc->getType();
@@ -367,7 +367,7 @@ expr ']' // 式 ']' について
         }
       }
     argList ')'
-      { $$ = makeCallTree($1->c_str(), $4, $<proc>$); }
+      { $$ = makeCallTree($1->c_str(), $4, $<proc>3); }
   ;
 
 // stmt と expr の右辺中の 変数を表す ID を置き換えたもの
@@ -544,18 +544,18 @@ static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
 
 static ExprTree *makeCallTree(string name, ArgList *args, ProcEntry *callee)
 {
-  int argsParamNum = (args == NULL) ? 0 : (*args).size();
+  int argsParamNum = (args == NULL) ? 0 : args->size();
   if(argsParamNum != callee->getParamNumber()){
-    compileError(EParamNumMismatch, name.c_str(), callee->getParamNumber(), argsParamNum);
+    compileError(EParamNumMismatch, name.c_str(), argsParamNum, callee->getParamNumber());
   }
 
   ParamList paramList = *(callee->getParamList());
 
   for(size_t i = 0; i < argsParamNum; i++){
-    if((*args)[i]->getType() == TInt || paramList[i].first == TReal){
+    if((*args)[i]->getType() == TInt && paramList[i].first == TReal){
       ExprTree* iexp = new UniExprTree(Cint2real, (*args)[i], TReal);
       (*args)[i] = iexp;
-    }else if((*args)[i]->getType() == TReal || paramList[i].first == TInt){
+    }else if((*args)[i]->getType() == TReal && paramList[i].first == TInt){
       ExprTree* iexp = new UniExprTree(Creal2int, (*args)[i], TInt);
       (*args)[i] = iexp;
     }
