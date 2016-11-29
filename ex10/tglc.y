@@ -310,7 +310,7 @@ stmt
         if (proc_type != TVoid) {
           compileError(ENotReturnValue, proc->getName().c_str());
         }
-        $$ = makeReturnTreeWithValue(NULL);
+        $$ = makeDefaultReturnTree(TVoid);
       }
   | RETURN expr ';'
       { $$ = makeReturnTreeWithValue($2); }
