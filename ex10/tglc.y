@@ -544,45 +544,58 @@ static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
 
 }
 
+//手続き呼び出しの構文木を作る関数
 static ExprTree *makeCallTree(string name, ArgList *args, ProcEntry *callee)
 {
+//NULLチェックをしながら実引数の数、手続きの仮引数の数を取得する
   int argsParamNum = (args == NULL) ? 0 : args->size();
   int procParamNum = (callee->getParamList() == NULL) ? 0 : callee->getParamNumber();
-  if(argsParamNum != procParamNum/*callee->getParamNumber()*/){
-    compileError(EParamNumMismatch, name.c_str(), argsParamNum, procParamNum/*callee->getParamNumber()*/);
+  if(argsParamNum != procParamNum){
+  //引数の数が異なる場合にコンパイルエラーを吐く
+    compileError(EParamNumMismatch, name.c_str(), argsParamNum, procParamNum);
   }
 
+//引数の型チェックを行う。引数が0の場合にはスキップする
   if(procParamNum != 0){
+
     ParamList paramList = *(callee->getParamList());
     for(size_t i = 0; i < argsParamNum; i++){
       if((*args)[i]->getType() == TInt && paramList[i].first == TReal){
+      //手続きの引数が実数の場合に実引数の型を整数に変換する
         ExprTree* iexp = new UniExprTree(Cint2real, (*args)[i], TReal);
         (*args)[i] = iexp;
       }else if((*args)[i]->getType() == TReal && paramList[i].first == TInt){
+      //手続きの引数が整数の場合に実引数の型を実数に変換する
         ExprTree* iexp = new UniExprTree(Creal2int, (*args)[i], TInt);
         (*args)[i] = iexp;
       }
     }
   }
+  //手続き呼び出しの構文木を生成する
   ExprTree* retCallTree = new CallTree(name, callee->getType(), args, callee->getSystemProcedure(), callee->getCode());
   return retCallTree;
 }
 
+//局所変数呼び出しの構文木を作成する
 static LocalVarTree *initLocalVar(string name, Type vtype, ExprTree *expr)
 {
   ExprTree* iexp;
+  //void型の変数は宣言できないのでコンパイルエラーを吐く
   if(vtype == TVoid){
     compileError(EVoidVariable, name.c_str());
   }
 
+  //宣言した変数の型に代入する構文木の型を合わせ、iexpに代入する
+  //（型が同じ場合には得に型を変換する必要はない）
   if(vtype == TInt && expr->getType() == TReal){
     iexp = new UniExprTree(Creal2int, expr, TInt);
   }else if(vtype == TReal && expr->getType() == TInt){
     iexp = new UniExprTree(Cint2real, expr, TReal);
   }else{
     iexp = expr;
-    }
+  }
 
+  //局所変数の構文木を生成する
   LocalVarTree* retLVarTree = new LocalVarTree(name, iexp->getType(), iexp);
   return retLVarTree;
 }
@@ -606,6 +619,7 @@ static ReturnTree *makeDefaultReturnTree(Type type)
 
 static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
 {
+  //引数が空の場合を考慮してvalの型とprocの型が持つ型を取得する
   Type vtype = (val == NULL) ? TVoid : val->getType();
   Type ptype = proc->getType();
 
@@ -630,7 +644,7 @@ static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
       return tree;
     }
   }
-  else {//型変換を行う必要がないとき(varがNULLのときを含む)
+  else {//型変換を行う必要がないとき
     return new ReturnTree(val, proc->getParamNumber());
   }
 }
