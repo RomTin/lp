@@ -604,7 +604,7 @@ static ReturnTree *makeDefaultReturnTree(Type type)
 
 static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
 {
-  Type vtype = val->getType();
+  Type vtype = (val == NULL) ? TVoid : val->getType();
   Type ptype = proc->getType();
 
   if(ptype == TVoid){//procから得られる手続きの型がvoid型ならエラー
