@@ -161,9 +161,21 @@ defPart	: procDef
 // 手続き定義 → type ID '(' 仮引数リスト ')' '{' 局所宣言リスト 本体 '}'
 procDef
   : type ID  '(' formalParamList ')' '{'
-      { }
+      { 
+        // 
+        ProcEntry *new_proc = defineProcedure(*$2, $1);
+        proc = new_proc;
+
+        checkParamList($4, new_proc);
+
+        addParameters($4);
+      
+      }
     localDeclList body '}' 
-      { }
+      { 
+        ReturnTree *return_tree = makeDefaultReturnTree($1);
+        proc->push_back(return_tree);
+      }
   ;
 
 // 本体 → ε | 本体 文
