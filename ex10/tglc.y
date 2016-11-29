@@ -617,6 +617,7 @@ static ReturnTree *makeDefaultReturnTree(Type type)
 
 static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
 {
+  //引数が空の場合を考慮してvalの型とprocの型が持つ型を取得する
   Type vtype = (val == NULL) ? TVoid : val->getType();
   Type ptype = proc->getType();
 
@@ -641,7 +642,7 @@ static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
       return tree;
     }
   }
-  else {//型変換を行う必要がないとき(varがNULLのときを含む)
+  else {//型変換を行う必要がないとき
     return new ReturnTree(val, proc->getParamNumber());
   }
 }
