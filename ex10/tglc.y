@@ -301,19 +301,20 @@ stmt
       }
       }
     '{' stmtList '}' { $$ = new RepeatTree($3,$7); }
-  | ID '(' { $<proc>$ = findProcedure($1->c_str()); }
+  | ID '(' { $<proc>$ = findProcedure($1->c_str()); } // 記号表から定義を探してくる
     argList ')' ';'
-      { $$ = makeCallTree($1->c_str(), $4, $<proc>3); }
+      { $$ = makeCallTree($1->c_str(), $4, $<proc>3); } // 呼び出し構文木を生成し合成属性に代入する
   | RETURN ';'
       { 
+        // 相続属性のprocがコマンド(戻り値がvoid)でなければコンパイルエラー
         Type proc_type = proc->getType();
         if (proc_type != TVoid) {
           compileError(ENotReturnValue, proc->getName().c_str());
         }
-        $$ = makeDefaultReturnTree(TVoid);
+        $$ = makeDefaultReturnTree(TVoid); // 戻り値構文木を生成し合成属性に代入する
       }
   | RETURN expr ';'
-      { $$ = makeReturnTreeWithValue($2); }
+      { $$ = makeReturnTreeWithValue($2); } // 戻り値構文木を生成し合成属性に代入する
   ;
 
 // if部 → IF '(' 条件 ')' '{' 文リスト '}' |
@@ -361,13 +362,14 @@ expr ']' // 式 ']' について
 | RNUM { $$ = new RNumNode($1); }  //RNUM について 実数の構文木を生成する
   | ID '(' 
       {
+        // 記号表から宣言を取得して、コマンド(戻り値がvoid)であればコンパイルエラー
         $<proc>$ = findProcedure($1->c_str());
         if ($<proc>$->getType() == TVoid) {
           compileError(EDeclaredAsComm, $<proc>$->getName().c_str());
         }
       }
     argList ')'
-      { $$ = makeCallTree($1->c_str(), $4, $<proc>3); }
+      { $$ = makeCallTree($1->c_str(), $4, $<proc>3); } // 呼び出し構文木を生成する
   ;
 
 // stmt と expr の右辺中の 変数を表す ID を置き換えたもの
