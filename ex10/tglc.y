@@ -544,22 +544,20 @@ static RelationTree *makeRelationTree(CConst op, ExprTree *e1, ExprTree *e2)
 
 static ExprTree *makeCallTree(string name, ArgList *args, ProcEntry *callee)
 {
-  int argsParamNum = (args == NULL) ? 0 : args->size();
-  int procParamNum = (callee->getParamList() == NULL) ? 0 : callee->getParamNumber();
-  if(argsParamNum != procParamNum/*callee->getParamNumber()*/){
-    compileError(EParamNumMismatch, name.c_str(), argsParamNum, procParamNum/*callee->getParamNumber()*/);
+  int argsParamNum = (args == NULL) ? 0 : (*args).size();
+  if(argsParamNum != callee->getParamNumber()){
+    compileError(EParamNumMismatch, name.c_str(), callee->getParamNumber(), argsParamNum);
   }
 
-  if(procParamNum != 0){
-    ParamList paramList = *(callee->getParamList());
-    for(size_t i = 0; i < argsParamNum; i++){
-      if((*args)[i]->getType() == TInt && paramList[i].first == TReal){
-        ExprTree* iexp = new UniExprTree(Cint2real, (*args)[i], TReal);
-        (*args)[i] = iexp;
-      }else if((*args)[i]->getType() == TReal && paramList[i].first == TInt){
-        ExprTree* iexp = new UniExprTree(Creal2int, (*args)[i], TInt);
-        (*args)[i] = iexp;
-      }
+  ParamList paramList = *(callee->getParamList());
+
+  for(size_t i = 0; i < argsParamNum; i++){
+    if((*args)[i]->getType() == TInt || paramList[i].first == TReal){
+      ExprTree* iexp = new UniExprTree(Cint2real, (*args)[i], TReal);
+      (*args)[i] = iexp;
+    }else if((*args)[i]->getType() == TReal || paramList[i].first == TInt){
+      ExprTree* iexp = new UniExprTree(Creal2int, (*args)[i], TInt);
+      (*args)[i] = iexp;
     }
   }
   ExprTree* retCallTree = new CallTree(name, callee->getType(), args, callee->getSystemProcedure(), callee->getCode());
@@ -604,8 +602,8 @@ static ReturnTree *makeDefaultReturnTree(Type type)
 
 static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
 {
-  if(!(val==NULL)){
-  Type vtype = val->getType();
+  
+  Type vtype = val == NULL ? TVoid :val->getType();
   Type ptype = proc->getType();
 
   if(ptype == TVoid){//procから得られる手続きの型がvoid型ならエラー
@@ -630,15 +628,9 @@ static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
     }
   }
   else {//型変換を行う必要がないとき
-    vtype == TVoid;
     return makeDefaultReturnTree(vtype);
-  }
   }
   
-  else if(val==NULL) {//varがNULLのとき
-    Type vtype = TVoid;
-    return makeDefaultReturnTree(vtype);
-  }
 }
 
 
