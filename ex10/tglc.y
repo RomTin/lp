@@ -615,7 +615,7 @@ static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
     }
   }
   else {//型変換を行う必要がないとき(varがNULLのときを含む)
-    makeDefaultReturnTree(vtype);
+    return makeDefaultReturnTree(vtype);
   }
 }
 
