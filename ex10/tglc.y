@@ -629,7 +629,7 @@ static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
     }
   }
   else {//型変換を行う必要がないとき(varがNULLのときを含む)
-    return makeDefaultReturnTree(vtype);
+    return new ReturnTree(val, proc->getParamNumber());
   }
 }
 
