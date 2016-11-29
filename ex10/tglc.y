@@ -633,10 +633,12 @@ static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
 
 static void addParameters(ParamList *params)
 {//仮引数リストが空か調べる
-  if(!params->empty()){
-    //先頭から順に仮引数の型と仮引数名を取り出し記号表に登録
-    for(vector<ParamType>::iterator it = params->begin(); it != params->end(); it++ ){
-      addParameter(it->second, it->first);    //addParameter(string name, Type type)
+  if(params!=NULL){
+    if(!params->empty()){
+      //先頭から順に仮引数の型と仮引数名を取り出し記号表に登録
+      for(vector<ParamType>::iterator it = params->begin(); it != params->end(); it++ ){
+	addParameter(it->second, it->first);    //addParameter(string name, Type type)
+      }
     }
   }
 }
