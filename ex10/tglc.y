@@ -602,6 +602,7 @@ static ReturnTree *makeDefaultReturnTree(Type type)
 
 static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
 {
+  if(!(val==NULL)){
   Type vtype = val->getType();
   Type ptype = proc->getType();
 
@@ -626,10 +627,18 @@ static ReturnTree *makeReturnTreeWithValue(ExprTree *val)
       return tree;
     }
   }
-  else {//型変換を行う必要がないとき(varがNULLのときを含む)
+  else {//型変換を行う必要がないとき
+    vtype == TVoid;
+    return makeDefaultReturnTree(vtype);
+  }
+  }
+  
+  else if(val==NULL) {//varがNULLのとき
+    Type vtype = TVoid;
     return makeDefaultReturnTree(vtype);
   }
 }
+
 
 static void addParameters(ParamList *params)
 {//仮引数リストが空か調べる
