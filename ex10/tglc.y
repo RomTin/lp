@@ -162,18 +162,22 @@ defPart	: procDef
 procDef
   : type ID  '(' formalParamList ')' '{'
       { 
-        // 
+        // 手続きエントリを得る
         ProcEntry *new_proc = defineProcedure(*$2, $1);
         proc = new_proc;
 
+        // 手続き宣言と定義の仮引数の数，型が一致しているか比較する
         checkParamList($4, new_proc);
 
+        // 仮引数を記号表に登録する
         addParameters($4);
       
       }
     localDeclList body '}' 
       { 
+        // デフォルトのReturn文を作成する
         ReturnTree *return_tree = makeDefaultReturnTree($1);
+        // 中間コードの最後に上記のReturn文を追加
         proc->push_back(return_tree);
       }
   ;
